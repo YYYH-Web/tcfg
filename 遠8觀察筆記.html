@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>遠 8 觀察筆記 — 個人整理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f4ede0;
+  --paper-2: #ebe3d3;
+  --ink: #1c1a17;
+  --ink-2: #3a3530;
+  --ink-3: #6b635a;
+  --rule: #b8ad99;
+  --accent: #8b3a1f;
+  --accent-2: #c47a3d;
+  --redact: #1c1a17;
+  --highlight: #f0d97a;
+  --serif: "Noto Serif TC", "Cormorant Garamond", Georgia, serif;
+  --display: "Cormorant Garamond", "Noto Serif TC", serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--serif);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.7;
+  font-size: 16px;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(139,58,31,0.04) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(28,26,23,0.05) 0%, transparent 50%),
+    repeating-linear-gradient(0deg, transparent 0px, transparent 28px, rgba(28,26,23,0.018) 28px, rgba(28,26,23,0.018) 29px);
+  min-height: 100vh;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+/* === HEADER === */
+.header {
+  border-bottom: 1px solid var(--rule);
+  padding: 24px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+
+.header .stamp {
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  padding: 4px 10px;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+  transform: rotate(-2deg);
+  display: inline-block;
+}
+
+/* === COVER === */
+.cover {
+  padding: 80px 48px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.cover .file-no {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  letter-spacing: 0.2em;
+  margin-bottom: 24px;
+}
+
+.cover h1 {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(48px, 8vw, 110px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.cover h1 .accent { color: var(--accent); font-weight: 500; }
+
+.cover .subtitle {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 300;
+  color: var(--ink-2);
+  letter-spacing: 0.02em;
+  margin-bottom: 40px;
+  border-left: 3px solid var(--accent);
+  padding-left: 20px;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 32px;
+  margin-top: 60px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+}
+
+.meta-item .label {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+
+.meta-item .value {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.meta-item .value sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--ink-3);
+  margin-left: 4px;
+}
+
+/* === DISCLAIMER === */
+.disclaimer {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 28px 36px;
+  background: rgba(196,122,61,0.07);
+  border-left: 4px solid var(--accent-2);
+  position: relative;
+  z-index: 2;
+}
+
+.disclaimer .label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.disclaimer p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+/* === NAVIGATION === */
+.nav {
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  border-top: 1px solid var(--rule);
+  padding: 12px 48px;
+  z-index: 50;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.nav a {
+  color: var(--ink-3);
+  text-decoration: none;
+  margin-right: 28px;
+  transition: color 0.2s;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+}
+
+.nav a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* === SECTION === */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 48px 60px;
+  position: relative;
+  z-index: 2;
+}
+
+.section-header {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+  align-items: start;
+}
+
+.section-no {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  padding-top: 18px;
+  border-top: 2px solid var(--accent);
+}
+
+.section-title {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.section-subtitle {
+  font-family: var(--serif);
+  font-size: 17px;
+  color: var(--ink-2);
+  font-weight: 300;
+  max-width: 720px;
+  line-height: 1.6;
+}
+
+.section-body {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 24px;
+}
+
+.section-body > .empty { grid-column: 1; }
+.section-body > .content { grid-column: 2; }
+
+/* === PROSE === */
+.prose {
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--ink);
+  max-width: 740px;
+}
+
+.prose p { margin-bottom: 18px; }
+
+.prose .lead {
+  font-size: 21px;
+  font-weight: 300;
+  color: var(--ink-2);
+  font-style: italic;
+  border-left: 2px solid var(--accent);
+  padding-left: 18px;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.prose strong {
+  font-weight: 700;
+  color: var(--ink);
+  background: linear-gradient(transparent 65%, rgba(240,217,122,0.6) 65%);
+}
+
+.prose em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* === QUOTE BLOCK === */
+.quote {
+  margin: 32px 0;
+  padding: 24px 28px;
+  background: var(--paper-2);
+  border-left: 3px solid var(--ink);
+  position: relative;
+  font-family: var(--serif);
+}
+
+.quote .meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px dotted var(--rule);
+  padding-bottom: 6px;
+}
+
+.quote .meta .speaker { color: var(--accent); font-weight: 500; }
+
+.quote .text {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--ink-2);
+  white-space: pre-wrap;
+}
+
+.quote.ma { border-left-color: var(--accent); background: rgba(139,58,31,0.04); }
+.quote.ma .meta .speaker { color: var(--accent); }
+
+.quote.dissent { border-left-color: #2d4a3e; background: rgba(45,74,62,0.05); }
+.quote.dissent .meta .speaker { color: #2d4a3e; }
+
+/* === STAT GRID === */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 32px 0;
+}
+
+.stat {
+  background: var(--paper);
+  padding: 24px 18px;
+  text-align: left;
+}
+
+.stat .num {
+  font-family: var(--display);
+  font-size: 42px;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat .label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+
+/* === CHART === */
+.chart-wrap {
+  margin: 40px 0;
+  padding: 28px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+}
+
+.chart-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 20px;
+}
+
+.chart {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 4px;
+  align-items: end;
+  height: 200px;
+  border-bottom: 1px solid var(--ink-3);
+  padding-bottom: 4px;
+}
+
+.bar-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  height: 100%;
+  position: relative;
+  cursor: default;
+}
+
+.bar-group:hover .tooltip { opacity: 1; }
+
+.bar {
+  background: var(--ink-3);
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.bar.ma {
+  background: var(--accent);
+  margin-top: 1px;
+}
+
+.bar-group .month-label {
+  font-family: var(--mono);
+  font-size: 8px;
+  color: var(--ink-3);
+  text-align: center;
+  margin-top: 6px;
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-45deg);
+  white-space: nowrap;
+  transform-origin: 0 0;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 6px 10px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+
+.legend {
+  display: flex;
+  gap: 18px;
+  margin-top: 36px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.05em;
+}
+
+.legend-swatch {
+  display: inline-block;
+  width: 16px;
+  height: 10px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* === TIMELINE === */
+.timeline {
+  position: relative;
+  padding-left: 32px;
+  margin: 32px 0;
+  border-left: 2px solid var(--rule);
+}
+
+.tl-event {
+  position: relative;
+  margin-bottom: 36px;
+  padding-left: 8px;
+}
+
+.tl-event::before {
+  content: "";
+  position: absolute;
+  left: -41px;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  background: var(--paper);
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+}
+
+.tl-event.major::before {
+  background: var(--accent);
+  width: 14px;
+  height: 14px;
+  left: -42px;
+}
+
+.tl-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.tl-title {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 24px;
+  color: var(--ink);
+  margin-bottom: 8px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.tl-desc {
+  font-size: 15px;
+  color: var(--ink-2);
+  line-height: 1.65;
+  max-width: 720px;
+}
+
+/* === CARDS GRID === */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 32px 0;
+}
+
+.card {
+  background: var(--paper);
+  padding: 24px 22px;
+}
+
+.card .icon {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 32px;
+  color: var(--accent);
+  margin-bottom: 12px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.card .title {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.card .desc {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+
+/* === FOOTER === */
+.footer {
+  border-top: 1px solid var(--rule);
+  padding: 60px 48px 40px;
+  margin-top: 80px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  text-align: center;
+  letter-spacing: 0.1em;
+  position: relative;
+  z-index: 2;
+}
+
+.footer .fine {
+  font-family: var(--serif);
+  font-size: 13px;
+  margin-top: 16px;
+  font-style: italic;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--ink-3);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* === MOBILE === */
+@media (max-width: 768px) {
+  .header { padding: 16px 20px; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .cover { padding: 48px 20px 40px; }
+  .nav { padding: 10px 20px; }
+  .section { padding: 56px 20px 40px; }
+  .section-header, .section-body { grid-template-columns: 1fr; gap: 12px; }
+  .section-no { padding-top: 0; padding-bottom: 8px; border-top: none; border-bottom: 2px solid var(--accent); display: inline-block; }
+  .meta-grid { gap: 20px; }
+  .disclaimer { margin: 24px 20px; padding: 20px 24px; }
+  .quote { padding: 18px 20px; }
+  .stat .num { font-size: 32px; }
+  .chart { height: 140px; gap: 2px; }
+  .bar-group .month-label { font-size: 7px; }
+  .timeline { padding-left: 24px; }
+  .tl-event::before { left: -33px; }
+  .tl-event.major::before { left: -34px; }
+}
+
+/* === HIGHLIGHT === */
+.kbd {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2px 6px;
+  letter-spacing: 0.05em;
+}
+
+.redact {
+  background: var(--ink);
+  color: var(--ink);
+  user-select: none;
+  padding: 0 2px;
+}
+
+/* fade-in */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section, .quote, .tl-event {
+  animation: rise 0.6s ease-out backwards;
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="header">
+  <div>遠 8 觀察筆記 / FILE-D14-1 / 個人整理 · 不對外發布</div>
+  <div class="stamp">CONFIDENTIAL</div>
+</header>
+
+<!-- ============= COVER ============= -->
+<section class="cover">
+  <div class="file-no">DOSSIER № 001 — Yuanxiong 8th Phase Community</div>
+  <h1>
+    一個社區<br>
+    與一個<span class="accent">主委</span>的<br>
+    十四個月。
+  </h1>
+  <p class="subtitle">
+    根據 LINE 群組 12,505 則訊息整理的個人觀察筆記。<br>
+    不是控訴,是備忘錄;不是判決,是檔案。
+  </p>
+
+  <div class="meta-grid">
+    <div class="meta-item">
+      <div class="label">資料來源</div>
+      <div class="value">LINE 群<sub>反應群</sub></div>
+    </div>
+    <div class="meta-item">
+      <div class="label">期間</div>
+      <div class="value">14 <sub>個月</sub></div>
+    </div>
+    <div class="meta-item">
+      <div class="label">總訊息</div>
+      <div class="value">12,505</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">發言者</div>
+      <div class="value">461 <sub>人</sub></div>
+    </div>
+    <div class="meta-item">
+      <div class="label">D14-1 發言</div>
+      <div class="value">1,743 <sub>14%</sub></div>
+    </div>
+    <div class="meta-item">
+      <div class="label">退群事件</div>
+      <div class="value">101 <sub>次</sub></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= DISCLAIMER ============= -->
+<aside class="disclaimer">
+  <div class="label">FOR PERSONAL USE — 給自己看的</div>
+  <p>
+    這份筆記是我從 2025/2/26 至 2026/5/4 的 LINE 群聊天記錄裡整理出來的觀察。引文都附上原始時間與發言代號,但這些只是我從 12,505 則訊息中挑出的片段——是我的視角,不是全貌。
+    寫這份是為了讓自己把這 14 個月看得更清楚一點:這個社區到底發生了什麼?哪些是事實、哪些是修辭、哪些是我的詮釋?
+    若未來要走正式管道(向主管機關申訴、區權會提案、調解),這份備忘錄是起點,不是終點。
+  </p>
+</aside>
+
+<!-- ============= NAV ============= -->
+<nav class="nav">
+  <a href="#cast">登場人物</a>
+  <a href="#timeline">時間軸</a>
+  <a href="#voice">發言聲量</a>
+  <a href="#lequ">樂居敘事</a>
+  <a href="#roof">頂樓菜園</a>
+  <a href="#rhetoric">修辭結構</a>
+  <a href="#control">控管手法</a>
+  <a href="#dissent">不同的聲音</a>
+  <a href="#endgame">最後一週</a>
+  <a href="#open">未解的問題</a>
+</nav>
+
+<!-- ============= 1. CAST ============= -->
+<section class="section" id="cast">
+  <div class="section-header">
+    <div class="section-no">§ 01</div>
+    <div>
+      <h2 class="section-title">登場人物</h2>
+      <p class="section-subtitle">本檔案中反覆出現的代號。所有名稱保留 LINE 群顯示形式,以便自己對照原始記錄。</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="empty"></div>
+    <div class="content">
+      <div class="cards">
+        <div class="card">
+          <div class="icon">D14-1</div>
+          <div class="title">馬先生 / 主任委員馬志國</div>
+          <div class="desc">
+            同一人。2025/2-7 自稱「馬先生」(時任公關委員),2025/11 起改名片為「主任委員馬志國」(第三屆)。
+            14 個月內共 1,743 則發言,是群內最高發言量者,佔總量約 14%。
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">G04-6</div>
+          <div class="title">梁泰廸(梁兄/棟委員)</div>
+          <div class="desc">
+            G棟住戶,曾任公關委員,第四屆當選棟委員。2026 年起多次提案要求建立規約修訂評估機制、罰單透明化、住戶提案優先排序。2026/5/4 被馬志國以「保護你」為由請出群。
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">B15-5</div>
+          <div class="title">采(B棟頂樓住戶)</div>
+          <div class="desc">
+            自稱第一次在群內發言。2026/3 反映頂樓菜園澆灌造成她家天花板潮濕滲漏,要求停止頂樓種菜並追究責任。後續持續追問規約合法性。
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">S15</div>
+          <div class="title">陳小姐</div>
+          <div class="desc">
+            質疑頂樓種菜改變原設計、影響景觀、責任歸屬不清。2026/3/14 被馬志國公開回擊「你除了說空話,具體為社區做了什麼?」
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">F9-1</div>
+          <div class="title">張小晶</div>
+          <div class="desc">
+            2026/4/19 質疑反應群是否成為「遠8地下皇帝群組」、「幾個委員加莊腳在群組上洗臉」。
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">A12-6</div>
+          <div class="title">劉麗玲</div>
+          <div class="desc">
+            多次公開附和梁委員,並質疑「該不該退群應由族群投票而不是管委會」。後表示「我沒有配合你,你要要踢我的對不對?」
+          </div>
+        </div>
+      </div>
+
+      <p style="font-family: var(--mono); font-size: 11px; color: var(--ink-3); margin-top: 16px; letter-spacing: 0.05em;">
+        ▸ 群內另有 455 位發言者,本檔案僅列出反覆出現於關鍵衝突中的人物。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 2. TIMELINE ============= -->
+<section class="section" id="timeline">
+  <div class="section-header">
+    <div class="section-no">§ 02</div>
+    <div>
+      <h2 class="section-title">十四個月時間軸</h2>
+      <p class="section-subtitle">主要事件節點。橘色節點是我認為對理解整個結構特別重要的時刻。</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="empty"></div>
+    <div class="content">
+      <div class="timeline">
+
+        <div class="tl-event major">
+          <div class="tl-date">2025.02.26 — 第一則記錄</div>
+          <div class="tl-title">減速帶爭議,「樂居 vs 提款機」首次出現</div>
+          <div class="tl-desc">
+            D14-1 在反對減速帶提案時拋出名句:「遠八是邁向<em>樂居</em>,還是變成別人的<em>提款機</em>,就看今年區權會了。」
+            這組二分法在後續 14 個月反覆出現,成為主軸修辭。
+          </div>
+        </div>
+
+        <div class="tl-event major">
+          <div class="tl-date">2025.03.03 — 公關委員給遠8住戶的公開信</div>
+          <div class="tl-title">「社區蟑螂」標籤定錨</div>
+          <div class="tl-desc">
+            區權會選舉前長文。首次將反對者統稱為「社區蟑螂」,並號召「住戶覺醒」對抗。
+            該月 D14-1 發言佔群內 40.4%(624/1545)。
+          </div>
+        </div>
+
+        <div class="tl-event">
+          <div class="tl-date">2025.03.08 — 第三屆區權會</div>
+          <div class="tl-title">D14-1 暫退委員,但持續主導論述</div>
+          <div class="tl-desc">
+            2025/5-10 月發言量降至個位數百分比。表面退場,實際透過樂居計畫、頂樓菜園、城食森林 15 萬補助案,維持實質影響力。
+          </div>
+        </div>
+
+        <div class="tl-event">
+          <div class="tl-date">2025.03 — 頂樓菜園推動</div>
+          <div class="tl-title">「種菜在頂樓就好,中庭可考慮四季花卉」</div>
+          <div class="tl-desc">
+            頂樓花圃改造為「景觀菜園」,由住戶認養。馬主委個人帶頭推動,定義為樂居評比加分項。當時無人提出頂樓住戶異議。
+          </div>
+        </div>
+
+        <div class="tl-event">
+          <div class="tl-date">2025.11.10 — 改名片</div>
+          <div class="tl-title">D14-1 由「馬先生」改為「主任委員馬志國」</div>
+          <div class="tl-desc">
+            重新就任(或當選)第三屆主委。發言量回升至 21.6%(11月)。
+          </div>
+        </div>
+
+        <div class="tl-event">
+          <div class="tl-date">2025.11.16</div>
+          <div class="tl-title">「12/15 前不解決就不參選樂居」最後通牒</div>
+          <div class="tl-desc">
+            針對環保室與停車場下達期限,把社區內部清潔秩序問題綁定於外部評比時程。
+          </div>
+        </div>
+
+        <div class="tl-event major">
+          <div class="tl-date">2026.03.13 — 頂樓菜園長文捍衛</div>
+          <div class="tl-title">B15-5 首次發言:我家漏水了</div>
+          <div class="tl-desc">
+            B棟頂樓住戶第一次在群內發言,指家中天花板因頂樓菜園澆灌出現滴水滲漏。馬主委隔日 10:01 即與物業經理現場會勘,並開始一連串技術性反駁。
+          </div>
+        </div>
+
+        <div class="tl-event">
+          <div class="tl-date">2026.03.14 10:50</div>
+          <div class="tl-title">公開反擊 S15 陳小姐</div>
+          <div class="tl-desc">
+            「@S15-陳小姐 說事很容易,做事不容易⋯⋯這兩年來,你除了說空話,具體為社區做了什麼?」典型「貢獻計分」式的反質疑。
+          </div>
+        </div>
+
+        <div class="tl-event">
+          <div class="tl-date">2026.04.19 — 退群提案爆發</div>
+          <div class="tl-title">梁委員提案:不能隨意將住戶退群</div>
+          <div class="tl-desc">
+            梁泰廸在群內提案要求退群須經全體委員同意、由公關委員單一窗口執行。F9-1 張小晶質疑這是「遠8地下皇帝群組」。
+            G13-3 巫柔蓁則公開維護:「梁委員整天在棟群一直毀謗馬先生已有一年之久」。陣營對立成形。
+          </div>
+        </div>
+
+        <div class="tl-event">
+          <div class="tl-date">2026.04.20 — 梁委員自述被排擠</div>
+          <div class="tl-title">遭排除於「物業&委員工作群組」</div>
+          <div class="tl-desc">
+            梁委員公開:「為何委員被拒絕加入物業&委員工作群組,妨害委員行使權利」。
+            指出上屆顧問可進此群,本屆當選委員卻不能,「規矩因人而異,是否一個人說了算」。
+          </div>
+        </div>
+
+        <div class="tl-event">
+          <div class="tl-date">2026.04.27</div>
+          <div class="tl-title">罰單統計:22 個月開出 700+ 張罰單</div>
+          <div class="tl-desc">
+            梁委員公開社區罰單總表:「一共開出罰單超過 7 百宗。極有可能打破全台灣社區的記錄。」
+            A10-1 佑回應:應建立「數據支持」與「民意參考」評估機制。
+          </div>
+        </div>
+
+        <div class="tl-event major">
+          <div class="tl-date">2026.04.30 — 樂居評比結果公布</div>
+          <div class="tl-title">未通過第二階段審查</div>
+          <div class="tl-desc">
+            馬主委公告:「我們並未通過第二階段審查。在此,我們也誠摯祝賀鄰里社區『遠雄之星 6 期』順利通過審查。」
+            兩年計畫宣告失敗。隨後一週語氣急轉。
+          </div>
+        </div>
+
+        <div class="tl-event">
+          <div class="tl-date">2026.05.01 — 例會衝突</div>
+          <div class="tl-title">主席 15 次警告</div>
+          <div class="tl-desc">
+            管委會例會,住戶 C2-6 林子文出席發言,馬主委版本稱對方「擺明的就是要來鬧場、癱瘓議事的」「主席共計 15 次制止警告」。
+            梁委員版本稱:近兩屆住戶提案總被排在最後,常等不到發言便放棄。
+          </div>
+        </div>
+
+        <div class="tl-event">
+          <div class="tl-date">2026.05.03</div>
+          <div class="tl-title">馬主委:「我為什麼這麼積極」</div>
+          <div class="tl-desc">
+            「因為我看到遠8有很多社區蟑螂在蠢蠢欲動,不想自己的財產被他們分食。」「社區蟑螂」修辭在 14 個月後再度出場,完成敘事閉環。
+          </div>
+        </div>
+
+        <div class="tl-event major">
+          <div class="tl-date">2026.05.04 13:57 — 最後的記錄</div>
+          <div class="tl-title">「為了保護您,我先暫時請你離開這個群」</div>
+          <div class="tl-desc">
+            馬主委將梁泰廸踢出群組。理由:「您的發言,比較容易引起誤會,為了保護您」。
+            這也是這份聊天記錄的最後一則重要事件。
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 3. VOICE ============= -->
+<section class="section" id="voice">
+  <div class="section-header">
+    <div class="section-no">§ 03</div>
+    <div>
+      <h2 class="section-title">發言聲量分布</h2>
+      <p class="section-subtitle">看一個人在 14 個月裡的「在場/退場/再現」節奏,比看任何單則發言都更能看出他的權力節律。</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="empty"></div>
+    <div class="content">
+
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="num">14%</div>
+          <div class="label">D14-1 占群內<br>總發言比例</div>
+        </div>
+        <div class="stat">
+          <div class="num">×3.8</div>
+          <div class="label">D14-1 發言量<br>是次高者的倍數</div>
+        </div>
+        <div class="stat">
+          <div class="num">8/8</div>
+          <div class="label">所有 [投票]<br>由 D14-1 發起</div>
+        </div>
+        <div class="stat">
+          <div class="num">2</div>
+          <div class="label">月份發言量<br>=0(2025/8、10)</div>
+        </div>
+      </div>
+
+      <div class="chart-wrap">
+        <div class="chart-title">每月發言量 / D14-1 vs 群內其他人</div>
+        <div class="chart" id="chart"></div>
+        <div class="legend">
+          <span><span class="legend-swatch" style="background: var(--ink-3);"></span>群內其他人</span>
+          <span><span class="legend-swatch" style="background: var(--accent);"></span>D14-1(馬主委)</span>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>
+          這張圖告訴我幾件事。
+        </p>
+        <p>
+          <strong>2025 年 2-3 月</strong>是區權會選舉前夕,D14-1 占群內全部發言的 40-52%。一個人壓著 460 人講話。
+        </p>
+        <p>
+          <strong>2025 年 5-10 月</strong>幾乎沉寂——這段時間他不是該屆主委。但即使沉寂,他仍透過樂居計畫、頂樓菜園的執行,維持實質影響力。<em>退場不等於退出。</em>
+        </p>
+        <p>
+          <strong>2025 年 11 月</strong>改名片為「主任委員馬志國」,聲量回升。
+        </p>
+        <p>
+          <strong>2026 年 4-5 月</strong>樂居失敗 + 梁委員提案 + 例會衝突 + 踢人事件,一條清楚的「失敗 → 反撲」曲線。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 4. LEQU ============= -->
+<section class="section" id="lequ">
+  <div class="section-header">
+    <div class="section-no">§ 04</div>
+    <div>
+      <h2 class="section-title">樂居敘事</h2>
+      <p class="section-subtitle">「樂居」是台中市政府的優良社區評比。在這個群裡,它變成了一個政治神學:支持的人是同志,不支持的人是「社區蟑螂」。</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="empty"></div>
+    <div class="content">
+      <div class="prose">
+        <p class="lead">
+          樂居 ≠ 一個獎項。在 14 個月的論述裡,樂居被定義成兩種人之間的選擇:有序清潔的人,vs「自由自在什麼都別管」的人。中間沒有空間。
+        </p>
+
+        <p>
+          <strong>樂居這個詞的第一次出現</strong>就把整個議程框定了:</p>
+
+        <div class="quote ma">
+          <div class="meta">
+            <span><span class="speaker">D14-1 馬先生</span></span>
+            <span>2025-02-26 14:26</span>
+          </div>
+          <div class="text">遠八是邁向樂居,還是變成別人的提款機,就看今年區權會了。</div>
+        </div>
+
+        <p>
+          一句話完成了三件事:(1) 把樂居跟管理費爭議綁在一起;(2) 把對手定性為要把社區當「提款機」;(3) 把投票決定壓縮成善惡選擇。後續所有討論都在這個框架裡進行。
+        </p>
+
+        <p>
+          一個多月後,語氣變得更強:</p>
+
+        <div class="quote ma">
+          <div class="meta">
+            <span><span class="speaker">D14-1 馬先生</span></span>
+            <span>2025-03-07 14:40</span>
+          </div>
+          <div class="text">車隨便開,垃圾隨便丟,東西隨便放,檳榔隨便吐,菸隨便抽,自由自在,多樂居啊</div>
+        </div>
+
+        <p>
+          這是針對前一日某住戶問「你心目中的樂居和我的樂居有什麼不同」的回應。沒有人說過要垃圾隨便丟,但對方的提問被翻譯成「你想要的樂居就是垃圾隨便丟」。<strong>稻草人化反對者</strong>的修辭手法。
+        </p>
+
+        <p>
+          樂居計畫推進到 2026 年 2 月,語言越來越像政治運動:</p>
+
+        <div class="quote ma">
+          <div class="meta">
+            <span><span class="speaker">D14-1 主任委員馬志國</span></span>
+            <span>2025-11-26 20:42</span>
+          </div>
+          <div class="text">您希望社區是有序、清潔的樂居?
+還是自在都不用管的樂居?
+要參加樂居評比,一定會對秩序、清潔加強管理。
+若要自由自在什麼都別管的樂居,就投反對參加樂居評比。</div>
+        </div>
+
+        <p>
+          <strong>2026/4/30 結果公布:未通過第二階段審查。</strong></p>
+
+        <div class="quote ma">
+          <div class="meta">
+            <span><span class="speaker">D14-1 主任委員馬志國</span></span>
+            <span>2026-04-30 14:12</span>
+          </div>
+          <div class="text">向各位報告,本社區本次參與樂居評比,很遺憾我們並未通過第二階段審查。在此,我們也誠摯祝賀鄰里社區「遠雄之星 6 期」順利通過審查。
+對我們而言,參與評比是邁向優質社區的「過程」而非「終點」⋯⋯</div>
+        </div>
+
+        <p>
+          公告本身語氣得體。但接下來四天發生的事——例會衝突、踢人事件、社區蟑螂言論再現——透露出真正的反應。樂居不只是個獎,它是這個論述系統的合法性來源。<em>失去獎,等於失去最大的合法性憑藉。</em>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 5. ROOF ============= -->
+<section class="section" id="roof">
+  <div class="section-header">
+    <div class="section-no">§ 05</div>
+    <div>
+      <h2 class="section-title">頂樓菜園</h2>
+      <p class="section-subtitle">一個立意良好的構想,在執行上卻沒有徵詢實際受影響的人。</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="empty"></div>
+    <div class="content">
+      <div class="prose">
+
+        <p>
+          頂樓菜園這個案例很值得記錄,因為它呈現了一個典型的決策模式:<strong>有想法 → 找補助 → 拿來當樂居加分項 → 推下去 → 出問題 → 反擊質疑者。</strong>
+        </p>
+
+        <p>
+          馬主委的版本是這樣的:</p>
+
+        <div class="quote ma">
+          <div class="meta">
+            <span><span class="speaker">D14-1 主任委員馬志國</span></span>
+            <span>2026-03-13 22:18</span>
+          </div>
+          <div class="text">頂樓是公設,不能讓住戶隨意開墾,要改變成菜園先要解決的是法源依據,所以我們在管委會通過了頂樓植栽管理辦法,建立遊戲規則讓頂樓菜園能有序的進行,而不是雜亂無章的隨意亂墾。</div>
+        </div>
+
+        <div class="quote ma">
+          <div class="meta">
+            <span><span class="speaker">D14-1 主任委員馬志國</span></span>
+            <span>2026-03-13 22:18</span>
+          </div>
+          <div class="text">所以我們積極尋求外部資源,向市政府爭取「城食森林食農教育」專案補助,成功取得了 15 萬的菜園補助款,用於解決遠8頂樓風大、土貧的問題。</div>
+        </div>
+
+        <p>
+          有制度、有經費、有規畫——聽起來合理。但接著 B15-5 第一次在群裡發言:</p>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">B15-5 采(B棟頂樓住戶)</span></span>
+            <span>2026-03-13 23:00</span>
+          </div>
+          <div class="text">我是B棟頂樓住戶,這是第一次在群內發言,很晚了,抱歉打擾大家,頂樓種菜是件美事,但是長期澆水和植栽生長的根系會造成我家內天花板潮濕,頂樓一般下雨日久就會破壞頂樓防水層,何況是種菜的每日澆灌?我的地板已經有滴水滲漏造成的痕跡了,再推行種菜恐損害我的權益⋯⋯</div>
+        </div>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">H15-7 黃先生</span></span>
+            <span>2026-03-14 08:01</span>
+          </div>
+          <div class="text">當初評估此項目有先徵詢過頂樓住戶的意見嗎?之前有過幾次樓上傳來敲打聲,我上去看了之後發現是有住戶在鋤地整理菜園,不知道當初評估頂樓菜園時有沒有針對聲音這部分做過評估?</div>
+        </div>
+
+        <p>
+          兩個直接住在頂樓底下的人,提出兩個具體的居住權問題:漏水、噪音。馬主委的回應是技術性辯論——澆灌時間、植物根系、新加坡防水工法、節能減碳趨勢。
+          但對 S15-陳小姐質疑「責任歸屬」時,語氣立刻轉變:</p>
+
+        <div class="quote ma">
+          <div class="meta">
+            <span><span class="speaker">D14-1 主任委員馬志國</span></span>
+            <span>2026-03-14 10:50</span>
+          </div>
+          <div class="text">@S15-陳小姐 
+說事很容易,做事不容易。都不做我最省事。
+申請城食森林專案經費 15 萬給社區,我忙了 9 個月。
+申請樂居評選資料,我忙了兩年。
+這兩年來,你除了說空話,具體為社區做了什麼?</div>
+        </div>
+
+        <p>
+          這個句型值得記下來,因為它在後續事件裡反覆出現。<strong>它的作用是把「議題討論」轉成「資格審查」</strong>:你沒做過事,所以你沒資格質疑做事的人。
+          但這個邏輯有兩個問題:第一,B15-5 是頂樓住戶,她家漏水這件事的「資格」就是她家漏水本身;第二,即使我什麼都沒做,公共議題本來就不需要先付出才能評論。
+        </p>
+
+        <p>
+          G13-3 巫柔蓁在 2026/4/19 對梁委員的發言更直白地展現這個邏輯:</p>
+
+        <div class="quote">
+          <div class="meta">
+            <span><span class="speaker">G13-3 巫柔蓁(區)</span></span>
+            <span>2026-04-19 14:38</span>
+          </div>
+          <div class="text">肯定馬先生的付出!⋯⋯推動菜園節省園藝支出
+泰迪去拍雜草照
+不種不也是長雜草嗎?⋯⋯
+梁委員整天在棟群一直毀謗馬先生已有一年之久
+都只有一個人附和你而已
+其他人很困擾!</div>
+        </div>
+
+        <p>
+          ——這是「貢獻 → 免責 → 反質疑者就是毀謗」的完整三段論。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 6. RHETORIC ============= -->
+<section class="section" id="rhetoric">
+  <div class="section-header">
+    <div class="section-no">§ 06</div>
+    <div>
+      <h2 class="section-title">修辭結構</h2>
+      <p class="section-subtitle">把 14 個月的論述放在一起看,可以拆出幾個反覆使用的修辭模板。記下來,以後遇到就認得出來。</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="empty"></div>
+    <div class="content">
+      <div class="cards">
+        <div class="card">
+          <div class="icon">a</div>
+          <div class="title">二分法框架</div>
+          <div class="desc">
+            樂居 vs 提款機 / 有序清潔 vs 隨便丟垃圾 / 守規矩 vs 社區蟑螂。<br>
+            把所有討論壓縮成善惡兩極,中間立場被消音。
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">b</div>
+          <div class="title">資格審查反問</div>
+          <div class="desc">
+            「你除了說空話,具體為社區做了什麼?」<br>
+            把議題討論轉成貢獻計分。沒做過事=沒資格質疑。
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">c</div>
+          <div class="title">稻草人化</div>
+          <div class="desc">
+            對方說「我們需要討論」,被翻譯成「你想要垃圾隨便丟」。<br>
+            把對手立場誇大成最壞版本後再批評。
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">d</div>
+          <div class="title">「保護你」式踢人</div>
+          <div class="desc">
+            「您的發言比較容易引起誤會,為了保護您,我先暫時請你離開這個群。」<br>
+            把排除包裝成關懷。經典家父長語法。
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">e</div>
+          <div class="title">敵人化標籤</div>
+          <div class="desc">
+            社區蟑螂 / 鬧場 / 癱瘓議事 / 惡勢力 / 集結反撲。<br>
+            把不同意見者去人化,變成抽象的威脅實體。
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">f</div>
+          <div class="title">悲情訴求</div>
+          <div class="desc">
+            「我做了一年剎車皮,現在已經磨的沒功能了。」<br>
+            「惡勢力打不垮我,只有好人不支持,才會讓我退下。」<br>
+            把自己塑造成孤獨的殉道者。
+          </div>
+        </div>
+      </div>
+
+      <div class="prose" style="margin-top: 40px;">
+        <p>
+          這些都不是發明,是政治語言的標準工具箱。在區權會、社區自治脈絡裡,它們特別有效,因為大多數住戶<em>沒有時間/動機/資訊</em>去拆解修辭,他們只想把家裡的事處理好。
+          <strong>修辭簡化得越乾淨,動員效果就越強</strong>——但代價是討論品質的崩壞。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 7. CONTROL ============= -->
+<section class="section" id="control">
+  <div class="section-header">
+    <div class="section-no">§ 07</div>
+    <div>
+      <h2 class="section-title">控管手法</h2>
+      <p class="section-subtitle">不只是發言,是對「誰能發言、誰能聽見、誰能被看見」的結構性控制。</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="empty"></div>
+    <div class="content">
+      <div class="prose">
+        <p>從聊天記錄裡可以看到至少四個層級的資訊與動員控制:</p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon">i</div>
+          <div class="title">群組準入</div>
+          <div class="desc">
+            梁委員 2026/4/19 公開:「為何委員被拒絕加入物業&委員工作群組」「上屆顧問可以在未事先知會情況下加入,而今屆當選委員則不能加入」。<strong>誰能進關鍵群組,規矩因人而異。</strong>
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">ii</div>
+          <div class="title">退群權力</div>
+          <div class="desc">
+            14 個月內 101 次退群事件。最後一次是公開、署名、由主委親自執行。退群提案被梁委員提出後立刻被反對者圍攻。<strong>退群門檻就是言論成本。</strong>
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">iii</div>
+          <div class="title">物業綁定</div>
+          <div class="desc">
+            馬主委多次以「物業經理」名義行動(現場會勘、銷單事件、開立罰單)。22 個月開出 700+ 張罰單,梁委員質疑「打破全台灣社區紀錄」。<strong>物業是執行者,但執行誰的判斷?</strong>
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">iv</div>
+          <div class="title">議程排序</div>
+          <div class="desc">
+            梁委員指出:「近兩屆每次提案的住戶出席都會被排在最後才能發言,有些住戶因等不了太晚而放棄提案。」<strong>議事規則被用來消耗對手體力。</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="prose" style="margin-top: 40px;">
+        <p>
+          這些手法單獨看都「合法」——管理員本來就有權踢人、物業本來就有開單流程、議程本來就要排序。但<strong>合在一起運作時,就形成了一個讓不同意見很難存活的環境</strong>。
+        </p>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">F9-1 張小晶</span></span>
+            <span>2026-04-19 11:35</span>
+          </div>
+          <div class="text">也可否請被退群的住戶出來說明一下啊?還是這群算是遠8地下皇帝群組?如果是私底下的群組就麻煩不要利用公共資源:電梯口、app,宣傳說這是共用群組嘛⋯公開平台大家都有繳錢,多講了兩句話就要被認定來亂,梁委員只是提個意見某些人就氣噗噗,管委會應該是要給正式回應⋯</div>
+        </div>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">A12-6 劉麗玲</span></span>
+            <span>2026-04-19 14:43</span>
+          </div>
+          <div class="text">⋯既然這個是反映族群,該不該退群,應該有這個族群投票,而不是管委會
+🌟請問我提出這個意見是不是也會被退族群?</div>
+        </div>
+
+        <p>
+          劉麗玲的最後那句話——「請問我提出這個意見是不是也會被退族群?」——本身就是這套控管系統有效的證明。當住戶在發言前要先預判會不會被踢,自我審查就已經開始了。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 8. DISSENT ============= -->
+<section class="section" id="dissent">
+  <div class="section-header">
+    <div class="section-no">§ 08</div>
+    <div>
+      <h2 class="section-title">不同的聲音</h2>
+      <p class="section-subtitle">這個社區裡反對的人不是沒有,而是分散、間歇、容易被打斷。把他們的話放在一起,會看見另一個版本的故事。</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="empty"></div>
+    <div class="content">
+      <div class="prose">
+        <p>
+          <strong>關於罰單與管理:</strong>
+        </p>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">G04-6 棟委員梁泰廸</span></span>
+            <span>2026-04-27 18:35</span>
+          </div>
+          <div class="text">查看我們社區的罰單總表,從 2024 年 6 月 1 日至 2026 年 4 月 13 日這 22 個月裡,一共開出罰單超過 7 百宗。極有可能打破全台灣社區的記錄。</div>
+        </div>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">G04-6 棟委員梁泰廸</span></span>
+            <span>2026-04-28 08:26</span>
+          </div>
+          <div class="text">大家不妨用數據說話,我們不妨收集一些數據作比較,我們的罰款數量是其他社區的多少倍?而我們的衛生程度,整潔程度,優質管理度有比其他社區好嗎?好了多少?</div>
+        </div>
+
+        <p style="margin-top: 28px;">
+          <strong>關於管委會運作:</strong>
+        </p>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">G04-6 棟委員梁泰廸</span></span>
+            <span>2026-04-23 19:34</span>
+          </div>
+          <div class="text">大家不必爭論,以往馬生無論做委員,主委或顧問,很多事情都是他說了算,大家都習以為常,沒有爭議,現在有些不同聲音帶入群組,大家便不習慣吧了,其實這樣才是健康及正常現象!</div>
+        </div>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">D9-1 愛的櫥櫃</span></span>
+            <span>2025-04-06 10:40</span>
+          </div>
+          <div class="text">剛開始不是有一個老大弄了一個住戶群組,大他大到內褲穿不下,連住戶都踢出去。</div>
+        </div>
+
+        <p style="margin-top: 28px;">
+          <strong>關於頂樓種菜:</strong>
+        </p>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">B15-5 采</span></span>
+            <span>2026-03-29 23:58</span>
+          </div>
+          <div class="text">✅事由:頂樓種菜將形成頂樓共有部分損壞時修繕維護責任歸屬複雜化,為避免屆時糾紛延誤修繕工程,加劇頂樓住戶財產損失,形成民事案件,提出意見。
+✅主要訴求:確認修繕責任歸屬、停止違法行為
+1. 頂樓共有部分未經頂樓住戶同意逕行約定個人專用種菜行為違反內政部公寓大廈管理條例,應立即停止違法行為⋯⋯</div>
+        </div>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">D5-1 莊先生</span></span>
+            <span>2026-03-14 11:46</span>
+          </div>
+          <div class="text">別種菜了,把土挖掉,保持排水暢通,既不會淹水,也不會有大量塵土問題。</div>
+        </div>
+
+        <p style="margin-top: 28px;">
+          <strong>關於程序正義:</strong>
+        </p>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">E2-7 林先生</span></span>
+            <span>2026-04-19 12:57</span>
+          </div>
+          <div class="text">⋯梁委員據我所知在棟群的服務是有口碑的,去年為了其它住戶間菸害糾紛出面熱心處理,只不過後來不知因為哪一點說錯了嗎?就被退群,還被說是完全沒有能力處理。我是不太明白,即使處理過程再怎樣有瑕疵,其它委員為何不能同時出面幫忙處理,是否有先入為主成見?
+以上這些先都不說,第四屆一開始,大家都有心,何不敞開心胸齊心努力,為了社區。
+多一人分擔,社區可以更美好</div>
+        </div>
+
+        <div class="quote dissent">
+          <div class="meta">
+            <span><span class="speaker">B15-5 采</span></span>
+            <span>2026-04-19 11:21</span>
+          </div>
+          <div class="text">列入會議記錄,明確記錄將住戶退群確切原因,讓被踢住戶有申訴管道,劃分執行職責,也是好事</div>
+        </div>
+
+        <div class="prose" style="margin-top: 28px;">
+          <p>
+            這些聲音的共同點是:<strong>溫和、具體、訴諸程序</strong>。沒有人在罵人,沒有人說馬主委是壞人,他們只是要求一件事——制度透明、程序正義、責任歸屬清楚。
+          </p>
+          <p>
+            而這也許就是為什麼這些聲音容易被淹沒:在強勢的二分法修辭面前,「我們建立一個程序吧」聽起來總是過於溫吞、過於理性、過於慢。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 9. ENDGAME ============= -->
+<section class="section" id="endgame">
+  <div class="section-header">
+    <div class="section-no">§ 09</div>
+    <div>
+      <h2 class="section-title">最後一週</h2>
+      <p class="section-subtitle">2026/4/30 樂居公告失敗,到 5/4 馬主委踢出梁委員——這一週濃縮了過去 14 個月所有的張力。</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="empty"></div>
+    <div class="content">
+      <div class="prose">
+
+        <div class="quote ma">
+          <div class="meta">
+            <span><span class="speaker">D14-1 主任委員馬志國</span></span>
+            <span>2026-05-03 20:24</span>
+          </div>
+          <div class="text">我為什麼這麼積極參與遠8社區事務?
+因為我看到遠8有很多社區蟑螂在蠢蠢欲動,不想自己的財產被他們分食。</div>
+        </div>
+
+        <div class="quote ma">
+          <div class="meta">
+            <span><span class="speaker">D14-1 主任委員馬志國</span></span>
+            <span>2026-05-04 09:32</span>
+          </div>
+          <div class="text">遠8這次都太輕乎,這次社區蟑螂們知道,只要遠8平順度過今年,他們就完全沒機會了。
+所以他們不擇手段的勢在必得集結反撲,他們成功了。
+遠8靠我一個人撐不起來,我身邊的夥伴都退怯了,我也只能放下。
+惡勢力打不垮我,只有好人不支持,才會讓我退下</div>
+        </div>
+
+        <div class="quote ma">
+          <div class="meta">
+            <span><span class="speaker">D14-1 主任委員馬志國</span></span>
+            <span>2026-05-04 09:39</span>
+          </div>
+          <div class="text">我們三個確定再來不會再參選遠8委員,再來遠8要靠住戶選出靠譜的委員自救了。
+如果住戶不看事實,而一直被社區蟑螂的話術帶著走,那就一起沈淪吧</div>
+        </div>
+
+        <p>
+          這三則訊息把整套修辭推到頂峰:社區蟑螂、惡勢力、不擇手段、集結反撲、孤單的好人、放下、沈淪。<strong>這是政治演說的語言,不是社區管理的語言。</strong>
+        </p>
+
+        <p>
+          然後是當天下午 13:57,聊天記錄結束前的最後一個重要發言:</p>
+
+        <div class="quote ma">
+          <div class="meta">
+            <span><span class="speaker">D14-1 主任委員馬志國</span></span>
+            <span>2026-05-04 13:57</span>
+          </div>
+          <div class="text">@G04-6棟委員梁泰廸 
+梁兄,我個人對你沒有任何意見,但這幾天觀察下來,您的發言,比較容易引起誤會,為了保護您,我先暫時請你離開這個群。
+有社區事務的建議,還是歡迎您尋相關管道提出</div>
+        </div>
+
+        <p class="lead" style="margin-top: 32px;">
+          值得逐句解構這段話。
+        </p>
+
+        <p>
+          <strong>「梁兄」</strong>——稱兄道弟的親密暗示,把即將發生的事框定為「兄弟之間的事」而非「主委對委員的權力行使」。
+        </p>
+        <p>
+          <strong>「我個人對你沒有任何意見」</strong>——撤銷個人動機。但這個動作本身就否定了被踢者主張這是針對性行為的可能。
+        </p>
+        <p>
+          <strong>「您的發言,比較容易引起誤會」</strong>——把責任轉嫁給發言者本人。問題不是在群組制度、不是在主委判斷,而是在你「容易引起誤會」。
+        </p>
+        <p>
+          <strong>「為了保護您」</strong>——這是整段話最關鍵的反轉。把一個剝奪發言權的行為,包裝成對被剝奪者的關懷。<em>家父長語法的教科書範例。</em>
+        </p>
+        <p>
+          <strong>「我先暫時請你離開這個群」</strong>——「先」「暫時」「請」三個軟化詞並置,但實際操作是不可逆的、不需要被踢者同意的、立即生效的。
+        </p>
+        <p>
+          <strong>「有社區事務的建議,還是歡迎您尋相關管道提出」</strong>——把問題退回給原本就無效或被堵塞的「相關管道」。梁委員從 4/19 到 5/4 兩週內提出的所有提案,大部分都是在抗議這些管道本身的不暢通。
+        </p>
+
+        <div style="margin: 40px 0; padding: 28px; background: var(--ink); color: var(--paper); font-family: var(--display); font-style: italic; font-size: 22px; line-height: 1.5;">
+          這 87 個字裡,完整呈現了一套權力運作的語法:<br>
+          剝奪 + 否認動機 + 轉嫁責任 + 包裝為關懷 + 軟化動詞 + 退回失效管道。
+        </div>
+
+        <p>
+          這也是這份聊天記錄的最後一個重要事件。我猜這就是你會去整理這份檔案的直接原因。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 10. OPEN ============= -->
+<section class="section" id="open">
+  <div class="section-header">
+    <div class="section-no">§ 10</div>
+    <div>
+      <h2 class="section-title">未解的問題</h2>
+      <p class="section-subtitle">這份筆記是給未來的自己看的。下面是我目前還沒有答案、需要進一步釐清的事。</p>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <div class="empty"></div>
+    <div class="content">
+      <div class="prose">
+        <p class="lead">
+          整理這份檔案的時候我提醒自己:我看到的是一個版本,不是全部。馬主委可能有他的理由、有他的視角、有我沒看到的努力。下面是我自己應該繼續釐清的:
+        </p>
+
+        <p>
+          <strong>1. 罰單 700 張這個數字。</strong>
+          梁委員的數字如果屬實,確實異常。但需要對照其他類似規模社區的開單頻率才能下結論。可以向其他遠雄社區或公寓大廈管理協會查詢。
+        </p>
+
+        <p>
+          <strong>2. 樂居 vs 提款機這組對立的真實內涵。</strong>
+          馬主委反覆強調 55 元/坪管理費就夠用,反對漲價。這個立場本身可能是對的——但「不漲管理費」跟「不參加樂居」這兩件事為什麼一定要綁在一起?中間的因果鏈我還沒看清楚。
+        </p>
+
+        <p>
+          <strong>3. 物業關係。</strong>
+          記錄中有多次「物業經理離職」「換了三家物業公司」的痕跡。物業頻繁更替的背後是什麼?是物業真的能力不足,還是物業跟主委理念不合就會被換掉?這需要去問前物業經理。
+        </p>
+
+        <p>
+          <strong>4. 我自己的選擇性。</strong>
+          12,505 則訊息我用程式抽出符合主題的來看,本身就是一種篩選。馬主委一定也說過很多就事論事、解決問題的話。下次重看時要特別留意他<em>不</em>用攻擊性修辭時的樣子,看看比例是不是跟我的印象一致。
+        </p>
+
+        <p>
+          <strong>5. 沉默的多數。</strong>
+          461 個發言者裡,絕大多數人發言量在 10 則以下。他們真正的想法是什麼?是支持、反對、還是只想置身事外?這在文字記錄裡看不到。
+        </p>
+
+        <p>
+          <strong>6. 我接下來想做什麼?</strong>
+          這份筆記不是用來貼到牆上的,是用來幫我想清楚下一步。可能的選項:
+        </p>
+
+        <div style="background: var(--paper-2); padding: 24px 28px; border-left: 3px solid var(--accent-2); margin: 24px 0; font-size: 15px; line-height: 1.8;">
+          <strong>(a)</strong> 如果只是想理解,那整理到這裡就夠了。<br>
+          <strong>(b)</strong> 如果想改變現況,該做的不是攻擊個人,是<em>準備下屆委員選舉的政見論述</em>,或在區權會提出具體可投票的議案(例如:罰單透明化、退群須經全體委員同意、議程排序規則)。<br>
+          <strong>(c)</strong> 如果有具體不法行為(財務不透明、群組裡的人身攻擊已構成公然侮辱),該走的是檢舉或法律途徑,不是輿論。<br>
+          <strong>(d)</strong> 如果什麼都不做,記得這份檔案,不要假裝沒看到。
+        </div>
+
+        <p style="font-style: italic; color: var(--ink-3); margin-top: 32px;">
+          這份筆記的價值不在於它說了多少,而在於它是不是讓我看得比之前更清楚一點。如果是,它就完成了它的任務。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FOOTER ============= -->
+<footer class="footer">
+  <div>END OF DOSSIER · FILE-D14-1 · 編譯於 2026.05.05</div>
+  <div class="fine">
+    本文件僅供個人整理參考。所有引文出自 LINE「遠 8 反應群」公開記錄,引文時間與發言代號照原樣保留。
+    本文不對任何個人作出最終評價,不應作為公開傳播或法律訴訟之直接依據。
+  </div>
+</footer>
+
+<script>
+// 月份柱狀圖
+const data = {
+  "2025-02": {all: 91, ma: 47},
+  "2025-03": {all: 1545, ma: 624},
+  "2025-04": {all: 682, ma: 179},
+  "2025-05": {all: 681, ma: 25},
+  "2025-06": {all: 658, ma: 32},
+  "2025-07": {all: 1217, ma: 119},
+  "2025-08": {all: 854, ma: 0},
+  "2025-09": {all: 636, ma: 9},
+  "2025-10": {all: 500, ma: 0},
+  "2025-11": {all: 629, ma: 136},
+  "2025-12": {all: 1050, ma: 68},
+  "2026-01": {all: 590, ma: 24},
+  "2026-02": {all: 492, ma: 48},
+  "2026-03": {all: 755, ma: 63},
+  "2026-04": {all: 1129, ma: 205},
+  "2026-05": {all: 996, ma: 185},
+};
+
+const max = Math.max(...Object.values(data).map(d => d.all));
+const chart = document.getElementById('chart');
+Object.entries(data).forEach(([month, d]) => {
+  const otherH = ((d.all - d.ma) / max) * 100;
+  const maH = (d.ma / max) * 100;
+  const pct = d.all > 0 ? ((d.ma / d.all) * 100).toFixed(0) : 0;
+  const div = document.createElement('div');
+  div.className = 'bar-group';
+  div.innerHTML = `
+    <div class="tooltip">${month} · 共 ${d.all} 則 · D14-1 ${d.ma} 則 (${pct}%)</div>
+    <div class="bar ma" style="height: ${maH}%"></div>
+    <div class="bar" style="height: ${otherH}%"></div>
+    <div class="month-label">${month.slice(2)}</div>
+  `;
+  chart.appendChild(div);
+});
+
+// 滾動入場
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.animationPlayState = 'running';
+    }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.section, .quote, .tl-event').forEach((el, i) => {
+  el.style.animationDelay = `${(i % 5) * 0.05}s`;
+  el.style.animationPlayState = 'paused';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
