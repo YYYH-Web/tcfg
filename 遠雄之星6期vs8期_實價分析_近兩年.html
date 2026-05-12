@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>遠雄之星 6 期 vs 8 期 實價登錄分析</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;background:#f7f6f2;color:#222;line-height:1.6}
+  body{padding:16px;max-width:980px;margin:0 auto}
+  header{margin-bottom:24px}
+  h1{font-size:22px;font-weight:600;margin-bottom:4px}
+  .sub{color:#777;font-size:14px}
+  .pill{display:inline-block;padding:3px 10px;background:#e8e4d6;color:#5b4a1d;border-radius:14px;font-size:12px;margin-right:6px;margin-top:6px}
+  section{background:#fff;border-radius:12px;padding:18px;margin-bottom:16px;border:1px solid #ebe7dc}
+  h2{font-size:16px;font-weight:600;margin-bottom:12px;color:#333}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+  .stat{background:#faf8f1;border-radius:8px;padding:12px 14px;border:1px solid #efebde}
+  .stat .lbl{font-size:12px;color:#888;margin-bottom:4px}
+  .stat .val{font-size:22px;font-weight:600;color:#222}
+  .stat .unit{font-size:12px;color:#888;font-weight:400;margin-left:3px}
+  .stat .ext{font-size:11px;color:#aaa;margin-top:2px}
+  .chart-wrap{position:relative;width:100%;height:300px;margin-top:6px}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:#666;margin-bottom:6px}
+  .legend span{display:flex;align-items:center;gap:5px}
+  .dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+  .dot.line{width:18px;height:2px;border-radius:0}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{padding:8px 6px;text-align:right;border-bottom:1px solid #eee}
+  th:first-child,td:first-child{text-align:left}
+  th{background:#faf8f1;font-weight:600;color:#555;font-size:12px}
+  .obs{background:#faf8f1;border-left:3px solid #534AB7;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:14px;color:#444}
+  .obs strong{color:#222}
+  footer{text-align:center;color:#aaa;font-size:11px;padding:16px 0}
+  @media (max-width:520px){
+    h1{font-size:19px}
+    .chart-wrap{height:260px}
+    .stat .val{font-size:19px}
+    table{font-size:12px}
+    th,td{padding:6px 3px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>遠雄之星 6 期 vs 8 期 實價登錄分析</h1>
+  <div class="sub">台中市清水區 · 近兩年成交資料</div>
+  <div>
+    <span class="pill">資料區間 2024-05-12 ~ 2026-03-08</span>
+    <span class="pill">已排除 1 房/套房</span>
+    <span class="pill">共 54 筆</span>
+  </div>
+</header>
+
+<section>
+  <h2>整體概覽</h2>
+  <div class="grid" id="statGrid"></div>
+  <table>
+    <thead><tr><th>社區</th><th>筆數</th><th>均價(萬/坪)</th><th>最高</th><th>最低</th><th>均坪數</th><th>均總價(萬)</th></tr></thead>
+    <tbody id="sumTable"></tbody>
+  </table>
+</section>
+
+<section>
+  <h2>季度平均單價走勢</h2>
+  <div class="legend">
+    <span><span class="dot line" style="background:#534AB7"></span>遠雄之星 6 期</span>
+    <span><span class="dot line" style="background:#D85A30"></span>遠雄之星 8 期</span>
+  </div>
+  <div class="chart-wrap"><canvas id="trend"></canvas></div>
+</section>
+
+<section>
+  <h2>各房型平均單價（萬/坪）</h2>
+  <div class="legend">
+    <span><span class="dot" style="background:#534AB7"></span>6 期</span>
+    <span><span class="dot" style="background:#D85A30"></span>8 期</span>
+  </div>
+  <div class="chart-wrap"><canvas id="roomPrice"></canvas></div>
+  <table>
+    <thead><tr><th>房型</th><th>6期筆數</th><th>6期均價</th><th>6期均坪</th><th>8期筆數</th><th>8期均價</th><th>8期均坪</th></tr></thead>
+    <tbody id="roomTable"></tbody>
+  </table>
+</section>
+
+<section>
+  <h2>各房型平均總價（萬元）與坪數</h2>
+  <div class="legend">
+    <span><span class="dot" style="background:#534AB7"></span>6 期 總價</span>
+    <span><span class="dot" style="background:#D85A30"></span>8 期 總價</span>
+    <span><span class="dot line" style="background:#0F6E56"></span>平均坪數</span>
+  </div>
+  <div class="chart-wrap"><canvas id="total"></canvas></div>
+</section>
+
+<section>
+  <h2>坪數 vs 單價 散佈圖</h2>
+  <div class="legend">
+    <span><span class="dot" style="background:#534AB7;border-radius:50%"></span>6 期 (圓)</span>
+    <span><span class="dot" style="background:#D85A30;transform:rotate(45deg)"></span>8 期 (三角)</span>
+  </div>
+  <div class="chart-wrap" style="height:340px"><canvas id="scat"></canvas></div>
+</section>
+
+<section>
+  <h2>主要觀察</h2>
+  <div class="obs"><strong>1. 8 期反超 6 期。</strong>近兩年 8 期均價 20.47 萬/坪、略高於 6 期 20.28 萬/坪，與三年期資料的「6 期較高」結論相反，意謂屋齡 3 年的 8 期在這波交易中市場接受度提升。</div>
+  <div class="obs"><strong>2. 高點在 2024 年中至 2025 年初。</strong>8 期 2024Q4 達 22.7 萬高點、2025Q1 仍守在 21.79 萬；6 期 2024Q3 衝至 21.72 萬，但兩者 2025Q2 起明顯回落，2026Q1 均下探至 17~19 萬區間。</div>
+  <div class="obs"><strong>3. 2 房為交易主力。</strong>54 筆中有 37 筆是 2 房（69%）、平均坪數 37~39 坪、總價約 750~850 萬。3 房 52 坪約 1,000 萬、4 房 61 坪約 1,150 萬。</div>
+  <div class="obs"><strong>4. 大坪數單價較低。</strong>兩社區 4 房均價皆低於 2、3 房，且散佈圖顯示坪數越大、單價越向下集中。小坪數則出現 24~25 萬高點，反映總價門檻效應。</div>
+  <div class="obs"><strong>5. 近期成交動能偏弱。</strong>2025 下半年起樣本數明顯減少（每季僅 1~5 筆），且均價未回到 2024 高點，整體呈現「量縮價回」格局。</div>
+</section>
+
+<footer>資料來源：內政部不動產交易實價查詢服務網 · 分析日期 2026-05-12</footer>
+
+<script>
+const DATA = {"summary":[{"社區":"遠雄之星6期","count":23,"avg_price":20.28,"max_price":24.55,"min_price":12.58,"avg_size":45.35,"avg_total":919.65},{"社區":"遠雄之星8期","count":31,"avg_price":20.47,"max_price":25.12,"min_price":12.42,"avg_size":43.09,"avg_total":873.77}],"roomtype":[{"社區":"遠雄之星6期","房型分類":"2房","count":14,"avg_price":20.2,"avg_size":40.02,"avg_total":806.43},{"社區":"遠雄之星6期","房型分類":"3房","count":7,"avg_price":20.11,"avg_size":51.43,"avg_total":1033.14},{"社區":"遠雄之星6期","房型分類":"4房","count":2,"avg_price":21.44,"avg_size":61.32,"avg_total":1315.0},{"社區":"遠雄之星8期","房型分類":"2房","count":23,"avg_price":20.59,"avg_size":37.61,"avg_total":768.83},{"社區":"遠雄之星8期","房型分類":"3房","count":5,"avg_price":21.47,"avg_size":56.03,"avg_total":1199.2},{"社區":"遠雄之星8期","房型分類":"4房","count":3,"avg_price":17.85,"avg_size":63.55,"avg_total":1136.0}],"quarterly":[{"社區":"遠雄之星6期","季":"2024Q2","avg_price":20.77,"count":7},{"社區":"遠雄之星6期","季":"2024Q3","avg_price":21.72,"count":4},{"社區":"遠雄之星6期","季":"2024Q4","avg_price":18.89,"count":2},{"社區":"遠雄之星6期","季":"2025Q1","avg_price":20.53,"count":1},{"社區":"遠雄之星6期","季":"2025Q2","avg_price":18.52,"count":5},{"社區":"遠雄之星6期","季":"2025Q3","avg_price":24.55,"count":1},{"社區":"遠雄之星6期","季":"2025Q4","avg_price":19.39,"count":1},{"社區":"遠雄之星6期","季":"2026Q1","avg_price":19.7,"count":2},{"社區":"遠雄之星8期","季":"2024Q2","avg_price":18.92,"count":2},{"社區":"遠雄之星8期","季":"2024Q3","avg_price":21.07,"count":8},{"社區":"遠雄之星8期","季":"2024Q4","avg_price":22.7,"count":4},{"社區":"遠雄之星8期","季":"2025Q1","avg_price":21.79,"count":8},{"社區":"遠雄之星8期","季":"2025Q2","avg_price":17.76,"count":5},{"社區":"遠雄之星8期","季":"2025Q3","avg_price":21.04,"count":1},{"社區":"遠雄之星8期","季":"2025Q4","avg_price":19.14,"count":1},{"社區":"遠雄之星8期","季":"2026Q1","avg_price":17.02,"count":2}],"scatter":[{"社區":"遠雄之星8期","坪數":53.54,"單價":18.68,"總價":1000.0,"房型分類":"3房","日期":"2026-03-08"},{"社區":"遠雄之星8期","坪數":59.92,"單價":15.35,"總價":920.0,"房型分類":"4房","日期":"2026-01-14"},{"社區":"遠雄之星8期","坪數":42.84,"單價":19.14,"總價":820.0,"房型分類":"2房","日期":"2025-10-12"},{"社區":"遠雄之星8期","坪數":34.46,"單價":21.04,"總價":725.0,"房型分類":"2房","日期":"2025-09-12"},{"社區":"遠雄之星8期","坪數":43.01,"單價":15.81,"總價":680.0,"房型分類":"2房","日期":"2025-05-09"},{"社區":"遠雄之星8期","坪數":44.04,"單價":19.19,"總價":845.0,"房型分類":"2房","日期":"2025-05-25"},{"社區":"遠雄之星8期","坪數":34.39,"單價":12.42,"總價":427.0,"房型分類":"2房","日期":"2025-04-11"},{"社區":"遠雄之星8期","坪數":43.0,"單價":19.77,"總價":850.0,"房型分類":"2房","日期":"2025-04-11"},{"社區":"遠雄之星8期","坪數":34.75,"單價":21.59,"總價":750.0,"房型分類":"2房","日期":"2025-04-01"},{"社區":"遠雄之星8期","坪數":35.73,"單價":19.87,"總價":710.0,"房型分類":"2房","日期":"2025-03-07"},{"社區":"遠雄之星8期","坪數":42.76,"單價":18.94,"總價":810.0,"房型分類":"2房","日期":"2025-03-01"},{"社區":"遠雄之星8期","坪數":35.72,"單價":20.86,"總價":745.0,"房型分類":"2房","日期":"2025-03-02"},{"社區":"遠雄之星8期","坪數":34.39,"單價":21.46,"總價":738.0,"房型分類":"2房","日期":"2025-03-07"},{"社區":"遠雄之星8期","坪數":24.28,"單價":25.12,"總價":610.0,"房型分類":"2房","日期":"2025-02-12"},{"社區":"遠雄之星8期","坪數":34.03,"單價":22.04,"總價":750.0,"房型分類":"2房","日期":"2025-02-16"},{"社區":"遠雄之星8期","坪數":42.84,"單價":24.69,"總價":1058.0,"房型分類":"2房","日期":"2025-02-08"},{"社區":"遠雄之星8期","坪數":34.18,"單價":21.36,"總價":730.0,"房型分類":"2房","日期":"2025-02-12"},{"社區":"遠雄之星8期","坪數":34.87,"單價":20.93,"總價":730.0,"房型分類":"2房","日期":"2024-11-24"},{"社區":"遠雄之星8期","坪數":34.76,"單價":23.88,"總價":830.0,"房型分類":"2房","日期":"2024-11-13"},{"社區":"遠雄之星8期","坪數":53.54,"單價":23.09,"總價":1236.0,"房型分類":"3房","日期":"2024-10-27"},{"社區":"遠雄之星8期","坪數":54.59,"單價":22.9,"總價":1250.0,"房型分類":"3房","日期":"2024-10-13"},{"社區":"遠雄之星8期","坪數":35.74,"單價":23.73,"總價":848.0,"房型分類":"2房","日期":"2024-09-16"},{"社區":"遠雄之星8期","坪數":34.85,"單價":21.81,"總價":760.0,"房型分類":"2房","日期":"2024-08-03"},{"社區":"遠雄之星8期","坪數":44.04,"單價":18.62,"總價":820.0,"房型分類":"2房","日期":"2024-08-17"},{"社區":"遠雄之星8期","坪數":35.72,"單價":22.96,"總價":820.0,"房型分類":"2房","日期":"2024-08-23"},{"社區":"遠雄之星8期","坪數":59.95,"單價":19.98,"總價":1198.0,"房型分類":"4房","日期":"2024-08-12"},{"社區":"遠雄之星8期","坪數":41.78,"單價":16.75,"總價":700.0,"房型分類":"2房","日期":"2024-07-06"},{"社區":"遠雄之星8期","坪數":42.84,"單價":21.64,"總價":927.0,"房型分類":"2房","日期":"2024-07-23"},{"社區":"遠雄之星8期","坪數":53.98,"單價":23.07,"總價":1245.0,"房型分類":"3房","日期":"2024-07-28"},{"社區":"遠雄之星8期","坪數":64.48,"單價":19.62,"總價":1265.0,"房型分類":"3房","日期":"2024-06-23"},{"社區":"遠雄之星8期","坪數":70.77,"單價":18.23,"總價":1290.0,"房型分類":"4房","日期":"2024-06-08"},{"社區":"遠雄之星6期","坪數":61.3,"單價":20.39,"總價":1250.0,"房型分類":"4房","日期":"2026-01-15"},{"社區":"遠雄之星6期","坪數":49.2,"單價":19.02,"總價":936.0,"房型分類":"3房","日期":"2026-01-14"},{"社區":"遠雄之星6期","坪數":49.5,"單價":19.39,"總價":960.0,"房型分類":"3房","日期":"2025-12-10"},{"社區":"遠雄之星6期","坪數":22.6,"單價":24.55,"總價":555.0,"房型分類":"2房","日期":"2025-09-16"},{"社區":"遠雄之星6期","坪數":46.36,"單價":22.17,"總價":1028.0,"房型分類":"3房","日期":"2025-06-14"},{"社區":"遠雄之星6期","坪數":33.84,"單價":19.21,"總價":650.0,"房型分類":"2房","日期":"2025-06-25"},{"社區":"遠雄之星6期","坪數":47.69,"單價":12.58,"總價":600.0,"房型分類":"2房","日期":"2025-05-16"},{"社區":"遠雄之星6期","坪數":33.62,"單價":20.26,"總價":681.0,"房型分類":"2房","日期":"2025-05-17"},{"社區":"遠雄之星6期","坪數":57.19,"單價":18.36,"總價":1050.0,"房型分類":"2房","日期":"2025-04-20"},{"社區":"遠雄之星6期","坪數":49.2,"單價":20.53,"總價":1010.0,"房型分類":"3房","日期":"2025-03-18"},{"社區":"遠雄之星6期","坪數":49.2,"單價":23.13,"總價":1138.0,"房型分類":"2房","日期":"2024-11-25"},{"社區":"遠雄之星6期","坪數":24.03,"單價":14.65,"總價":352.0,"房型分類":"2房","日期":"2024-10-12"},{"社區":"遠雄之星6期","坪數":61.34,"單價":22.5,"總價":1380.0,"房型分類":"4房","日期":"2024-08-09"},{"社區":"遠雄之星6期","坪數":40.27,"單價":22.35,"總價":900.0,"房型分類":"2房","日期":"2024-07-07"},{"社區":"遠雄之星6期","坪數":33.62,"單價":21.21,"總價":713.0,"房型分類":"2房","日期":"2024-07-01"},{"社區":"遠雄之星6期","坪數":48.06,"單價":20.81,"總價":1000.0,"房型分類":"2房","日期":"2024-07-20"},{"社區":"遠雄之星6期","坪數":33.83,"單價":20.1,"總價":680.0,"房型分類":"2房","日期":"2024-06-15"},{"社區":"遠雄之星6期","坪數":49.2,"單價":18.9,"總價":930.0,"房型分類":"3房","日期":"2024-06-02"},{"社區":"遠雄之星6期","坪數":61.67,"單價":18.94,"總價":1168.0,"房型分類":"3房","日期":"2024-06-12"},{"社區":"遠雄之星6期","坪數":54.74,"單價":21.74,"總價":1190.0,"房型分類":"2房","日期":"2024-05-16"},{"社區":"遠雄之星6期","坪數":48.03,"單價":21.3,"總價":1023.0,"房型分類":"2房","日期":"2024-05-12"},{"社區":"遠雄之星6期","坪數":54.91,"單價":21.85,"總價":1200.0,"房型分類":"3房","日期":"2024-05-12"},{"社區":"遠雄之星6期","坪數":33.62,"單價":22.55,"總價":758.0,"房型分類":"2房","日期":"2024-05-13"}],"date_min":"2024-05-12","date_max":"2026-03-08"};
+
+const PURPLE='#534AB7', CORAL='#D85A30', TEAL='#0F6E56';
+const GRID='rgba(0,0,0,0.06)', TEXT='#666';
+
+// Stat cards
+const sg=document.getElementById('statGrid');
+const cardsHtml = [
+  {lbl:'總交易筆數',val:DATA.summary.reduce((a,b)=>a+b.count,0),unit:'筆',ext:`6期 ${DATA.summary[0].count} / 8期 ${DATA.summary[1].count}`},
+  {lbl:'6期 均價',val:DATA.summary[0].avg_price.toFixed(2),unit:'萬/坪',ext:`區間 ${DATA.summary[0].min_price} ~ ${DATA.summary[0].max_price}`},
+  {lbl:'8期 均價',val:DATA.summary[1].avg_price.toFixed(2),unit:'萬/坪',ext:`區間 ${DATA.summary[1].min_price} ~ ${DATA.summary[1].max_price}`},
+  {lbl:'8期 - 6期 價差',val:(DATA.summary[1].avg_price-DATA.summary[0].avg_price).toFixed(2),unit:'萬/坪',ext:'8期略高'},
+].map(c=>`<div class="stat"><div class="lbl">${c.lbl}</div><div class="val">${c.val}<span class="unit">${c.unit}</span></div><div class="ext">${c.ext}</div></div>`).join('');
+sg.innerHTML = cardsHtml;
+
+// Summary table
+document.getElementById('sumTable').innerHTML = DATA.summary.map(s=>
+  `<tr><td>${s['社區']}</td><td>${s.count}</td><td>${s.avg_price}</td><td>${s.max_price}</td><td>${s.min_price}</td><td>${s.avg_size}</td><td>${s.avg_total}</td></tr>`
+).join('');
+
+// Room table
+const rooms=['2房','3房','4房'];
+document.getElementById('roomTable').innerHTML = rooms.map(rt=>{
+  const a=DATA.roomtype.find(x=>x['社區']==='遠雄之星6期'&&x['房型分類']===rt)||{count:'-',avg_price:'-',avg_size:'-'};
+  const b=DATA.roomtype.find(x=>x['社區']==='遠雄之星8期'&&x['房型分類']===rt)||{count:'-',avg_price:'-',avg_size:'-'};
+  return `<tr><td>${rt}</td><td>${a.count}</td><td>${a.avg_price}</td><td>${a.avg_size}</td><td>${b.count}</td><td>${b.avg_price}</td><td>${b.avg_size}</td></tr>`;
+}).join('');
+
+// Quarterly trend
+const quarters=[...new Set(DATA.quarterly.map(d=>d['季']))].sort();
+const d6=quarters.map(q=>{const r=DATA.quarterly.find(x=>x['社區']==='遠雄之星6期'&&x['季']===q);return r?r.avg_price:null});
+const d8=quarters.map(q=>{const r=DATA.quarterly.find(x=>x['社區']==='遠雄之星8期'&&x['季']===q);return r?r.avg_price:null});
+
+new Chart(document.getElementById('trend'),{
+  type:'line',
+  data:{labels:quarters,datasets:[
+    {label:'6期',data:d6,borderColor:PURPLE,backgroundColor:PURPLE,tension:0.3,spanGaps:true,pointRadius:5,pointStyle:'circle',borderWidth:2.5},
+    {label:'8期',data:d8,borderColor:CORAL,backgroundColor:CORAL,borderDash:[6,4],tension:0.3,spanGaps:true,pointRadius:5,pointStyle:'triangle',borderWidth:2.5}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.parsed.y!=null?c.parsed.y.toFixed(2)+' 萬/坪':'無資料')}}},
+    scales:{
+      x:{grid:{color:GRID},ticks:{color:TEXT,maxRotation:45,autoSkip:false,font:{size:11}}},
+      y:{grid:{color:GRID},ticks:{color:TEXT,callback:v=>v+' 萬'},title:{display:true,text:'單價(萬/坪)',color:TEXT}}
+    }
+  }
+});
+
+// Room price bar
+const r6=rooms.map(rt=>{const r=DATA.roomtype.find(x=>x['社區']==='遠雄之星6期'&&x['房型分類']===rt);return r?r.avg_price:null});
+const r8=rooms.map(rt=>{const r=DATA.roomtype.find(x=>x['社區']==='遠雄之星8期'&&x['房型分類']===rt);return r?r.avg_price:null});
+const r6c=rooms.map(rt=>{const r=DATA.roomtype.find(x=>x['社區']==='遠雄之星6期'&&x['房型分類']===rt);return r?r.count:0});
+const r8c=rooms.map(rt=>{const r=DATA.roomtype.find(x=>x['社區']==='遠雄之星8期'&&x['房型分類']===rt);return r?r.count:0});
+
+new Chart(document.getElementById('roomPrice'),{
+  type:'bar',
+  data:{labels:rooms,datasets:[
+    {label:'6期',data:r6,backgroundColor:PURPLE,counts:r6c},
+    {label:'8期',data:r8,backgroundColor:CORAL,counts:r8c}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(2)+' 萬/坪 (n='+c.dataset.counts[c.dataIndex]+')'}}},
+    scales:{x:{grid:{display:false},ticks:{color:TEXT}},y:{grid:{color:GRID},ticks:{color:TEXT,callback:v=>v+' 萬'},title:{display:true,text:'單價(萬/坪)',color:TEXT}}}
+  }
+});
+
+// Total price + size
+const tp6=rooms.map(rt=>{const r=DATA.roomtype.find(x=>x['社區']==='遠雄之星6期'&&x['房型分類']===rt);return r?r.avg_total:null});
+const tp8=rooms.map(rt=>{const r=DATA.roomtype.find(x=>x['社區']==='遠雄之星8期'&&x['房型分類']===rt);return r?r.avg_total:null});
+const sz=rooms.map(rt=>{
+  const a=DATA.roomtype.find(x=>x['社區']==='遠雄之星6期'&&x['房型分類']===rt);
+  const b=DATA.roomtype.find(x=>x['社區']==='遠雄之星8期'&&x['房型分類']===rt);
+  const arr=[a,b].filter(Boolean);
+  if(!arr.length)return null;
+  const w=arr.reduce((s,x)=>s+x.avg_size*x.count,0);
+  const c=arr.reduce((s,x)=>s+x.count,0);
+  return c?+(w/c).toFixed(1):null;
+});
+
+new Chart(document.getElementById('total'),{
+  data:{labels:rooms,datasets:[
+    {type:'bar',label:'6期 總價',data:tp6,backgroundColor:PURPLE,yAxisID:'y'},
+    {type:'bar',label:'8期 總價',data:tp8,backgroundColor:CORAL,yAxisID:'y'},
+    {type:'line',label:'平均坪數',data:sz,borderColor:TEAL,backgroundColor:TEAL,yAxisID:'y1',tension:0.3,pointRadius:6,borderWidth:2.5}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(0)+(c.dataset.yAxisID==='y'?' 萬':' 坪')}}},
+    scales:{
+      x:{grid:{display:false},ticks:{color:TEXT}},
+      y:{position:'left',grid:{color:GRID},ticks:{color:TEXT,callback:v=>v+' 萬'},title:{display:true,text:'總價(萬元)',color:TEXT}},
+      y1:{position:'right',grid:{display:false},ticks:{color:TEXT,callback:v=>v+' 坪'},title:{display:true,text:'坪數',color:TEXT}}
+    }
+  }
+});
+
+// Scatter
+const s6=DATA.scatter.filter(d=>d['社區']==='遠雄之星6期').map(d=>({x:d['坪數'],y:d['單價']}));
+const s8=DATA.scatter.filter(d=>d['社區']==='遠雄之星8期').map(d=>({x:d['坪數'],y:d['單價']}));
+
+new Chart(document.getElementById('scat'),{
+  type:'scatter',
+  data:{datasets:[
+    {label:'6期',data:s6,backgroundColor:'rgba(83,74,183,0.7)',borderColor:PURPLE,pointStyle:'circle',pointRadius:6},
+    {label:'8期',data:s8,backgroundColor:'rgba(216,90,48,0.65)',borderColor:CORAL,pointStyle:'triangle',pointRadius:6}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.x.toFixed(1)+' 坪, '+c.parsed.y.toFixed(2)+' 萬/坪'}}},
+    layout:{padding:10},
+    scales:{
+      x:{title:{display:true,text:'坪數',color:TEXT},grid:{color:GRID},ticks:{color:TEXT}},
+      y:{title:{display:true,text:'單價(萬/坪)',color:TEXT},grid:{color:GRID},ticks:{color:TEXT,callback:v=>v+' 萬'}}
+    }
+  }
+});
+</script>
+</body>
+</html>
