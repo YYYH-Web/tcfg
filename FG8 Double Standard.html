@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你所不認識的馬主委 — 遠雄之星8</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+  :root {
+    --ink: #1a1a1a;
+    --red: #b91c1c;
+    --red-light: #fef2f2;
+    --red-mid: #fca5a5;
+    --gold: #92400e;
+    --gold-light: #fffbeb;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-400: #9ca3af;
+    --gray-600: #4b5563;
+    --gray-800: #1f2937;
+    --paper: #fdfcf8;
+    --rule: #d1cfc8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #e8e3d8;
+    font-family: 'Noto Sans TC', sans-serif;
+    color: var(--ink);
+    line-height: 1.8;
+    padding: 40px 16px 80px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 860px;
+    margin: 0 auto 40px;
+    background: var(--red);
+    padding: 52px 60px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '雙標';
+    position: absolute;
+    right: -20px; top: -30px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 180px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-eyebrow {
+    font-size: 13px;
+    letter-spacing: .18em;
+    color: rgba(255,255,255,0.65);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.4;
+    margin-bottom: 18px;
+  }
+  .hero p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.78);
+    line-height: 1.9;
+    max-width: 620px;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-top: 20px;
+    letter-spacing: .06em;
+  }
+
+  /* ── SHEET ── */
+  .sheet {
+    max-width: 860px;
+    margin: 0 auto 32px;
+    background: var(--paper);
+    padding: 52px 60px;
+    box-shadow: 0 2px 20px rgba(0,0,0,.09);
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-num {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--red);
+    letter-spacing: .1em;
+    flex: 0 0 auto;
+  }
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  /* ── DOUBLE-STANDARD CARD ── */
+  .ds-card {
+    margin-bottom: 28px;
+    border: 1px solid var(--gray-200);
+  }
+  .ds-card-header {
+    background: var(--gray-800);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ds-card-num {
+    background: var(--red);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    letter-spacing: .06em;
+    flex: 0 0 auto;
+  }
+  .ds-card-label {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .04em;
+  }
+
+  .ds-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .ds-col {
+    padding: 20px 22px;
+  }
+  .ds-col:first-child {
+    border-right: 1px solid var(--gray-200);
+    background: var(--red-light);
+  }
+  .ds-col:last-child {
+    background: #f0fdf4;
+  }
+  .ds-col-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ds-col:first-child .ds-col-label { color: var(--red); }
+  .ds-col:last-child .ds-col-label { color: #166534; }
+  .ds-col-label::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+  }
+  .ds-col:first-child .ds-col-label::before { background: var(--red); }
+  .ds-col:last-child .ds-col-label::before { background: #16a34a; }
+
+  .ds-col p {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--gray-800);
+  }
+  .ds-col strong { color: var(--ink); }
+
+  .ds-note {
+    padding: 12px 20px;
+    background: #fffbeb;
+    border-top: 1px solid #fde68a;
+    font-size: 13px;
+    color: var(--gold);
+    line-height: 1.75;
+  }
+  .ds-note::before { content: '⚖ 規約依據：'; font-weight: 700; }
+
+  /* ── QUOTE BLOCK ── */
+  .quote-block {
+    margin: 10px 0 6px;
+    padding: 10px 14px;
+    border-left: 3px solid currentColor;
+    background: rgba(0,0,0,0.04);
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.7;
+    border-radius: 0 4px 4px 0;
+  }
+  .ds-col:first-child .quote-block { border-color: var(--red); }
+  .ds-col:last-child .quote-block { border-color: #16a34a; }
+
+  /* ── SUMMARY TABLE ── */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  .summary-table th {
+    background: var(--gray-800);
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .04em;
+  }
+  .summary-table th:first-child { width: 36px; text-align: center; }
+  .summary-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--gray-200);
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .summary-table tr:nth-child(even) td { background: var(--gray-50); }
+  .summary-table td:first-child {
+    text-align: center;
+    color: var(--red);
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .tag-said {
+    display: inline-block;
+    background: var(--red-light);
+    color: var(--red);
+    border: 1px solid var(--red-mid);
+    font-size: 11px;
+    padding: 1px 7px;
+    border-radius: 2px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .tag-did {
+    display: inline-block;
+    background: #fffbeb;
+    color: var(--gold);
+    border: 1px solid #fde68a;
+    font-size: 11px;
+    padding: 1px 7px;
+    border-radius: 2px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* ── FOOTER NOTE ── */
+  .foot-note {
+    max-width: 860px;
+    margin: 0 auto;
+    font-size: 13px;
+    color: #6b6047;
+    line-height: 1.8;
+    background: #faf8f2;
+    border: 1px solid #e3d9bf;
+    padding: 14px 22px;
+  }
+
+  @media (max-width: 600px) {
+    .hero, .sheet { padding: 32px 22px; }
+    .hero h1 { font-size: 22px; }
+    .hero::before { font-size: 100px; }
+    .ds-grid { grid-template-columns: 1fr; }
+    .ds-col:first-child { border-right: none; border-bottom: 1px solid var(--gray-200); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">遠雄之星8社區 · 陳情輔助資料</div>
+  <h1>你所不認識的馬主委<br>「對人嚴苛，對己寬鬆」的十一項雙標對照</h1>
+  <p>本文件依據社區規約條文、管委會公告、群組對話紀錄及事件記錄，就現任主任委員馬志國先生（下稱馬主委）言行前後矛盾、以不同標準要求他人與自身之處，逐項整理對照，供主管機關查核參考。</p>
+  <span class="hero-tag">共 11 項雙標對照 · 附規約條文依據</span>
+</div>
+
+<!-- ══ SECTION 1: 程序合法性 ══ -->
+<div class="sheet">
+  <div class="section-header">
+    <span class="section-num">SECTION 01</span>
+    <span class="section-title">程序合法性：要求他人遵守，自己繞過</span>
+  </div>
+
+  <!-- DS 1 -->
+  <div class="ds-card">
+    <div class="ds-card-header">
+      <span class="ds-card-num">雙標 01</span>
+      <span class="ds-card-label">聘任律師：自稱需區權會決議，卻以「通案預決議」繞過</span>
+    </div>
+    <div class="ds-grid">
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委對委員說</div>
+        <p>在管委群組發言中，馬主委明確表示：</p>
+        <div class="quote-block">「管委會無法自行決定聘雇常年法律顧問，需要區權會決議」</div>
+        <p>清楚承認此事屬於須經<strong>全體區分所有權人大會授權</strong>之事項。</p>
+      </div>
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委實際做了什麼</div>
+        <p>話鋒一轉，旋即以「本社區現況特殊」為由，自行以<strong>「通案預決議」</strong>方式，跳過區權會，直接決定由社區管理費支付所有個案諮詢及訴訟費，並指定特定律師（劉智偉律師）為社區專屬法律顧問。</p>
+      </div>
+    </div>
+    <div class="ds-note">規約第十四條：管委會決議須經出席委員過半數通過。規約第十八條：管委會經費支用有明確用途規範。規約第二十一條：財務運作應受全體住戶監督。</div>
+  </div>
+
+  <!-- DS 2 -->
+  <div class="ds-card">
+    <div class="ds-card-header">
+      <span class="ds-card-num">雙標 02</span>
+      <span class="ds-card-label">頂樓菜園：共用空間變更須區權會，他卻逕自開墾</span>
+    </div>
+    <div class="ds-grid">
+      <div class="ds-col">
+        <div class="ds-col-label">規約明定</div>
+        <p>規約第二條第三款規定：社區樓頂平臺為<strong>共用部分</strong>，「非經區分所有權人會議之決議，不得約定為約定專用部分」。</p>
+        <p>此一程序要求，是保護全體住戶對公共空間使用的決定權。</p>
+      </div>
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委實際做了什麼</div>
+        <p>馬主委未召開區分所有權人大會、未取得全體住戶共識，逕自決定在頂樓公共花圃<strong>開墾菜園</strong>，分配給特定住戶認養，實質上改變了共用空間的使用性質與受益對象。</p>
+      </div>
+    </div>
+    <div class="ds-note">規約第二條第三款：頂樓平臺屬共用部分，性質變更須區權會決議。《公寓大廈管理條例》第七條亦有對應規定。</div>
+  </div>
+
+  <!-- DS 3 -->
+  <div class="ds-card">
+    <div class="ds-card-header">
+      <span class="ds-card-num">雙標 03</span>
+      <span class="ds-card-label">規約修訂：要求住戶服從，卻讓定稿規約違反大會決議</span>
+    </div>
+    <div class="ds-grid">
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委的立場</div>
+        <p>馬主委多次強調，住戶必須遵守規約。規約第五章第二十二條第十款甚至明定：</p>
+        <div class="quote-block">「違規者應立即繳納罰金，並改善其行為，<strong>不得再提異議</strong>」</div>
+        <p>意即規約一旦定稿，住戶無從質疑。</p>
+      </div>
+      <div class="ds-col">
+        <div class="ds-col-label">規約定稿時發生什麼</div>
+        <p>113年3月30日區權人大會現場，住戶提案<strong>當場決議刪除</strong>「罰金併入管理費」條款。然而，113年4月19日定稿公告之規約，仍出現「管理中心亦可將罰金併入該戶管理費一起徵收」字樣，<strong>定稿與決議不符</strong>，管委會從未說明緣由。</p>
+      </div>
+    </div>
+    <div class="ds-note">規約第二十六條第一款第六目、第二十二條第十款。《公寓大廈管理條例》規定規約修訂應依區分所有權人會議決議為準。</div>
+  </div>
+</div>
+
+<!-- ══ SECTION 2: 合議制 ══ -->
+<div class="sheet">
+  <div class="section-header">
+    <span class="section-num">SECTION 02</span>
+    <span class="section-title">合議制：要求他人集體負責，自己獨斷專行</span>
+  </div>
+
+  <!-- DS 4 -->
+  <div class="ds-card">
+    <div class="ds-card-header">
+      <span class="ds-card-num">雙標 04</span>
+      <span class="ds-card-label">「我說了算」vs 要求他人尊重委員會決議</span>
+    </div>
+    <div class="ds-grid">
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委的標準（對他人）</div>
+        <p>馬主委要求其他委員務必尊重管委會決議，批評異議委員「不配合、扯後腿、造謠生事」，強調社區治理需要<strong>全體委員齊心</strong>。</p>
+      </div>
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委的標準（對自己）</div>
+        <p>馬主委於與清潔廠商溝通時公開表示：</p>
+        <div class="quote-block">「環保清潔這個區塊，我是權責委員<strong>我說了算</strong>，我的決定取決於你們交出來的成績。」</div>
+        <p>顯示其於特定事務逕行決斷，不受合議制約束。</p>
+      </div>
+    </div>
+    <div class="ds-note">規約第十三條：主任委員「對外代表管理委員會，並依管理委員會決議執行」，係合議制下之對外代表，非最高決策者。規約第十四條：決議須經出席委員過半數通過。</div>
+  </div>
+
+  <!-- DS 5 -->
+  <div class="ds-card">
+    <div class="ds-card-header">
+      <span class="ds-card-num">雙標 05</span>
+      <span class="ds-card-label">踢出異議委員 vs 自稱推動民主透明治理</span>
+    </div>
+    <div class="ds-grid">
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委的公開形象</div>
+        <p>馬主委多次在群組宣稱推動社區<strong>民主透明</strong>治理，強調管委會應「開誠布公」，批評過去委員不透明、藏私。</p>
+      </div>
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委的實際操作</div>
+        <p>對於與其意見不合之委員，馬主委<strong>強行將其踢出管委會討論群組</strong>，使被踢出之委員無從參與日常決策討論。一個被排除在討論群之外的委員，如何行使其依法應有的職權？</p>
+      </div>
+    </div>
+    <div class="ds-note">規約第十四條：管理委員會採合議制，所有委員依其職務行使職權。強行剝奪委員參與討論之管道，已實質架空合議制。</div>
+  </div>
+
+  <!-- DS 6 -->
+  <div class="ds-card">
+    <div class="ds-card-header">
+      <span class="ds-card-num">雙標 06</span>
+      <span class="ds-card-label">管委會停擺後「私下決議」vs 批評他人不按程序</span>
+    </div>
+    <div class="ds-grid">
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委的標準（對他人）</div>
+        <p>馬主委長期批評異議住戶、委員「不按程序辦事」「造謠生事」，強調所有事情都應走<strong>合法程序</strong>。</p>
+      </div>
+      <div class="ds-col">
+        <div class="ds-col-label">5月1日後管委會的實際運作</div>
+        <p>5月1日衝突後，管委會<strong>從未依規定公開召開例會</strong>，卻仍持續私下進行決議，包括：聘任律師、發布譴責公告，決議內容均未對外公開，更未給被指名住戶任何申辯機會。</p>
+      </div>
+    </div>
+    <div class="ds-note">規約第十五條：管委會例會每月至少召開一次，並作成會議紀錄。規約第二十一條：財務運作應受監督且公開。《公寓大廈管理條例》第三十五條：會議紀錄應公告。</div>
+  </div>
+</div>
+
+<!-- ══ SECTION 3: 言論與對待他人 ══ -->
+<div class="sheet">
+  <div class="section-header">
+    <span class="section-num">SECTION 03</span>
+    <span class="section-title">言論標準：自己可以罵人，別人不能有異議</span>
+  </div>
+
+  <!-- DS 7 -->
+  <div class="ds-card">
+    <div class="ds-card-header">
+      <span class="ds-card-num">雙標 07</span>
+      <span class="ds-card-label">「清廉認真」貼標 vs 對自身財務不透明疑慮的迴避</span>
+    </div>
+    <div class="ds-grid">
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委貼給他人的標籤</div>
+        <p>馬主委在群組公開宣稱：</p>
+        <div class="quote-block">「我推薦的這些委員都是<strong>清廉認真</strong>做事。」</div>
+        <p>並將不支持他的委員描述為「滿嘴愛社區的口號，真要做事的時候就閃了」、「像蒼蠅一樣」，以清廉與否作為評判他人的核心標準。</p>
+      </div>
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委自身的財務疑慮</div>
+        <p>住戶反映，頂樓菜園相關採購疑向<strong>馬主委關係人</strong>採購，採購過程未公開比價；城食補助款項之使用情形未見透明公開說明。馬主委以「清廉」要求他人，卻未能就自身主導之採購決策提供對等的財務透明度。</p>
+      </div>
+    </div>
+    <div class="ds-note">規約第二十一條：財務運作應公開受監督。以「清廉」標準嚴格評判他人，卻拒絕同等標準接受自身採購決策之檢視，係明顯雙標。</div>
+  </div>
+
+  <!-- DS 8 -->
+  <div class="ds-card">
+    <div class="ds-card-header">
+      <span class="ds-card-num">雙標 08</span>
+      <span class="ds-card-label">嚴格執行罰款 vs 頂樓菜園廢棄器材毫無作為</span>
+    </div>
+    <div class="ds-grid">
+      <div class="ds-col">
+        <div class="ds-col-label">對住戶的管理標準</div>
+        <p>馬主委主導下，社區罰款制度要求住戶對<strong>輕微違規立即改善</strong>，未改善即連續開罰。曾有住戶因車輛故障漏油累積罰金數萬元；另有住戶因垃圾暫置門口三日內連開六張罰單。「維護社區環境整潔」是開罰的核心理由。</p>
+      </div>
+      <div class="ds-col">
+        <div class="ds-col-label">對管委會自身的管理標準</div>
+        <p>頂樓菜園結束後，管委會以公款購置之大型儲水桶、竹竿、水管、種植器具等，<strong>長期棄置於頂樓公共空間</strong>，雜草叢生、一片荒廢，竹竿更架放於瓦斯管線旁存在安全疑慮。管委會對此<strong>毫無作為</strong>，亦未開罰任何人，更未對頂樓住戶致歉說明。</p>
+      </div>
+    </div>
+    <div class="ds-note">社區管理辦法明定維護公共空間整潔為住戶義務，違者開罰。然管委會自身造成之頂樓廢棄物問題，卻適用截然不同的「零問責」標準。</div>
+  </div>
+
+  <!-- DS 9 -->
+  <div class="ds-card">
+    <div class="ds-card-header">
+      <span class="ds-card-num">雙標 09</span>
+      <span class="ds-card-label">以「蟑螂」辱罵異議住戶 vs 自稱維護社區和諧</span>
+    </div>
+    <div class="ds-grid">
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委的公開言論</div>
+        <p>馬主委於社區公開群組（最多逾400名住戶）中，以下列詞語公開指稱持不同意見之住戶及委員：</p>
+        <div class="quote-block">「蟑螂」、「扯後腿」、「違規戶」、「沒救了」、「像蒼蠅一樣」</div>
+        <p>並將社區局勢描述為「良善住戶覺醒 vs 蟑螂對抗」的道德對立框架，自居「良善」一方。</p>
+      </div>
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委聲稱的目標</div>
+        <p>馬主委多次宣稱自己的一切作為，目的在於<strong>「讓社區更好」、「維護住戶和諧」、「為社區奉獻」</strong>，並以此為由要求住戶支持其連任。</p>
+        <p>然而，以侮辱性語言在公開平台標籤化鄰居，與「維護和諧」的目標根本上相悖。</p>
+      </div>
+    </div>
+    <div class="ds-note">規約第十三條：主任委員之職責在於代表管委會、依決議執行事務，並非社區道德仲裁者。公開以侮辱性詞語指稱住戶，已違反社區住戶應相互尊重之基本原則，並對被指名住戶造成實質精神壓力。</div>
+  </div>
+</div>
+
+<!-- ══ SECTION 4: 規約寬嚴不一 & 自身違規 ══ -->
+<div class="sheet">
+  <div class="section-header">
+    <span class="section-num">SECTION 04</span>
+    <span class="section-title">規約寬嚴不一：頂樓改建三次警告，倒垃圾立即開罰</span>
+  </div>
+
+  <!-- DS 10 -->
+  <div class="ds-card">
+    <div class="ds-card-header">
+      <span class="ds-card-num">雙標 10</span>
+      <span class="ds-card-label">規約對「頂樓開墾」寬鬆有緩衝，對「小違規」卻毫不寬容</span>
+    </div>
+    <div class="ds-grid">
+      <div class="ds-col">
+        <div class="ds-col-label">規約對頂樓改建的規定（大事 · 寬鬆）</div>
+        <p>依社區規約，針對頂樓平臺、共用空間等較重大之使用行為違規，規約明定管委會應<strong>給予至少三次警告通知</strong>，並給住戶改善時間，確認未改善後方可進一步處置。</p>
+        <p>亦即：即便是<strong>未經授權改變共用空間性質</strong>這種涉及全體住戶權益的重大行為，規約仍預留充分緩衝空間。</p>
+        <div class="quote-block">改建頂樓公共空間 → 警告第一次 → 警告第二次 → 警告第三次 → 才能處置</div>
+      </div>
+      <div class="ds-col">
+        <div class="ds-col-label">管委會對日常小違規的執行（小事 · 零容忍）</div>
+        <p>然而馬主委主導下，社區罰款辦法對住戶日常小違規採取<strong>完全相反</strong>的「零勸導、即開罰」原則：</p>
+        <ul style="padding-left:1.2em;margin:8px 0;font-size:14px;line-height:1.9;color:var(--gray-800);">
+          <li>垃圾暫置門口 → 當日調閱六個時段CCTV，連開六張罰單，合計 <strong>15,500 元</strong></li>
+          <li>車輛機件故障漏油 → 連續開罰，累積數萬元</li>
+          <li>多數罰單未經任何事前勸導或改善通知</li>
+        </ul>
+        <div class="quote-block">垃圾放錯地方 → 立即開罰 → 繼續開罰 → 不得異議</div>
+      </div>
+    </div>
+    <div class="ds-note">規約第二十六條第一款第六目：罰款授權條款。規約明定頂樓等共用空間重大違規有警告緩衝機制，然管委會對住戶日常小事卻採零容忍即開罰模式，標準顯然不一。若規約本身如此設計，則管委會選擇性執行最嚴苛方式對付住戶，正是此雙標之根源。</div>
+  </div>
+
+  <!-- DS 11 -->
+  <div class="ds-card">
+    <div class="ds-card-header">
+      <span class="ds-card-num">雙標 11</span>
+      <span class="ds-card-label">馬主委夫人攜帶辣椒水、馬主委出手毆人——他們才是最大的違規戶</span>
+    </div>
+    <div class="ds-grid">
+      <div class="ds-col">
+        <div class="ds-col-label">馬主委對「違規戶」的定義與態度</div>
+        <p>馬主委長期在社區大群以「<strong>違規戶</strong>」標籤公開指稱受罰住戶，語帶蔑視，並以此作為批評、孤立異議住戶的工具。</p>
+        <p>在馬主委的論述框架中，「違規戶」是社區害群之馬，是需要被對抗的「蟑螂」，是社區亂源的根源。</p>
+        <div class="quote-block">「遠8的長久發展不能靠少數人對抗蟑螂，要靠住戶覺醒。」</div>
+        <p>馬主委從不曾公開承認自己或家人有任何違規行為，更從未對社區住戶道歉。</p>
+      </div>
+      <div class="ds-col">
+        <div class="ds-col-label">115年5月1日例會：馬主委夫人與馬主委的實際行為</div>
+        <p><strong>馬主委夫人：</strong>於管委會正式例會現場，攜帶<strong>辣椒水</strong>（催淚噴霧）出席，此舉本身即已違反社區公共安全規範及集會場合之基本秩序。</p>
+        <p><strong>馬主委本人：</strong>於例會現場對前來表達意見之住戶<strong>主動出手攻擊</strong>，引發肢體衝突，造成人員受傷送醫，例會被迫中止。現場錄影畫面留有紀錄，馬主委攻擊意圖明確。</p>
+        <p>上述行為，依任何合理標準，均屬<strong>嚴重違規</strong>——不僅違反社區秩序，更涉及刑事傷害責任，目前司法程序仍在進行中。</p>
+        <div class="quote-block">攜帶危險物品進入社區集會場所 + 毆打住戶擾亂會議秩序 = 社區中最嚴重的違規行為之一</div>
+      </div>
+    </div>
+    <div class="ds-note">管委會公共秩序相關規定；《刑法》第277條傷害罪；社區集會場所禁帶危險物品之基本安全原則。馬主委以「違規戶」標籤打壓異議住戶，其本人及家屬卻在官方例會中做出最嚴重的違規行為，且從未自我檢討、公開道歉，反而以譴責公告指責他人，此雙標之惡劣程度為本案最為突出者。</div>
+  </div>
+</div>
+
+<!-- ══ SUMMARY TABLE ══ -->
+<div class="sheet">
+  <div class="section-header">
+    <span class="section-num">SUMMARY</span>
+    <span class="section-title">十一項雙標一覽表</span>
+  </div>
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>議題</th>
+        <th>馬主委對他人的要求／說法</th>
+        <th>馬主委對自身的實際作為</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>01</td>
+        <td>聘任律師</td>
+        <td><span class="tag-said">說</span> 需區權會決議</td>
+        <td><span class="tag-did">做</span> 以「通案預決議」自行決定，動用管理費</td>
+      </tr>
+      <tr>
+        <td>02</td>
+        <td>頂樓菜園</td>
+        <td><span class="tag-said">規約</span> 共用空間變更須區權會決議</td>
+        <td><span class="tag-did">做</span> 未召開區權會逕自開墾，分配特定住戶認養</td>
+      </tr>
+      <tr>
+        <td>03</td>
+        <td>規約效力</td>
+        <td><span class="tag-said">說</span> 住戶須服從規約、不得異議</td>
+        <td><span class="tag-did">做</span> 定稿規約違反大會決議，未說明原因</td>
+      </tr>
+      <tr>
+        <td>04</td>
+        <td>合議制</td>
+        <td><span class="tag-said">說</span> 要求委員尊重集體決議</td>
+        <td><span class="tag-did">做</span> 「我說了算」，特定事務獨斷不經委員會</td>
+      </tr>
+      <tr>
+        <td>05</td>
+        <td>資訊公開</td>
+        <td><span class="tag-said">說</span> 推動民主透明治理</td>
+        <td><span class="tag-did">做</span> 強行踢出異議委員，剝奪其參與討論權利</td>
+      </tr>
+      <tr>
+        <td>06</td>
+        <td>程序合法</td>
+        <td><span class="tag-said">說</span> 批評他人不按程序</td>
+        <td><span class="tag-did">做</span> 管委會停擺後私下決議，從不公開例會</td>
+      </tr>
+      <tr>
+        <td>07</td>
+        <td>財務清廉</td>
+        <td><span class="tag-said">說</span> 以清廉標準評判他人</td>
+        <td><span class="tag-did">做</span> 菜園採購疑向關係人採購，財務不透明</td>
+      </tr>
+      <tr>
+        <td>08</td>
+        <td>環境整潔</td>
+        <td><span class="tag-said">說</span> 住戶輕微違規立即連續開罰</td>
+        <td><span class="tag-did">做</span> 頂樓廢棄器材長期棄置，管委會毫無作為</td>
+      </tr>
+      <tr>
+        <td>09</td>
+        <td>社區和諧</td>
+        <td><span class="tag-said">說</span> 一切為社區和諧奉獻</td>
+        <td><span class="tag-did">做</span> 公開以「蟑螂」等詞辱罵異議住戶及委員</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>罰則寬嚴</td>
+        <td><span class="tag-said">規約</span> 頂樓改建重大違規：三次警告才處置</td>
+        <td><span class="tag-did">做</span> 住戶垃圾暫置門口：零勸導、當日連開六張罰單</td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>自身違規</td>
+        <td><span class="tag-said">說</span> 以「違規戶」蔑稱異議住戶、從不自我檢討</td>
+        <td><span class="tag-did">做</span> 夫人攜辣椒水進場、本人出手毆打住戶——例會現場最嚴重的違規者</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="foot-note">
+  本文件依據以下資料整理：社區規約（113年4月19日修訂版）、第二屆第二次區分所有權人會議記錄（113年3月30日）、社區公開LINE群組對話紀錄、管委會公告（含聘任法律顧問公告、譴責公告）、管委內部群組發言截圖。所有個人資料已依法遮蔽。本文件係陳情輔助資料，供台中市政府都市發展局查核參考，事實認定以主管機關調查結果為準。
+</div>
+
+</body>
+</html>
